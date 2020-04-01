@@ -37,7 +37,7 @@ export function replacePostfix(path: string) {
 }
 
 export function camelize(path: string) {
-  return path.replace(/(?:[-_])(\w)/, (_, c: string) => {
+  return path.replace(/(?:[-])(\w)/g, (_, c: string) => {
     return c ? c.toUpperCase() : c;
   });
 }

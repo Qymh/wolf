@@ -2,20 +2,18 @@
 import { Compiler } from 'webpack';
 import { generate } from './generate';
 import { ErrorCodes, error } from './error';
-import { isYAML, isVue, replacePostfix } from './utils';
+import { isYAML, replacePostfix, camelize } from './utils';
 
 export type Options = {
   dir: string;
   yml?: string | RegExp;
 
-  isValidFileOrDir?: (path: string) => boolean;
   getRelativePath?: (path: string) => string;
 };
 
 export const defaultOptions: Options = {
   dir: '',
   yml: 'meta.yml',
-  isValidFileOrDir: (path) => !!path,
   getRelativePath: (path) => path,
 };
 
@@ -32,7 +30,6 @@ function normalizeOptions(options: Options = defaultOptions) {
     }
   }
 
-  options.isValidFileOrDir = generateisValidFileOrDirFn();
   options.getRelativePath = generateGetRelativePathFn(dir);
 
   return options;
@@ -40,24 +37,14 @@ function normalizeOptions(options: Options = defaultOptions) {
 
 function generateGetRelativePathFn(dir: Options['dir']) {
   return (path: string) => {
-    return replacePostfix(
-      path.replace(dir, '').replace(/\/(\w)/g, (_, c: string) => {
-        return c ? `/${c.toLowerCase()}` : `/${c}`;
-      })
-    );
-  };
-}
-
-function generateisValidFileOrDirFn() {
-  return (path: string) => {
-    path = path.toLowerCase();
-    return (
-      isVue(path) ||
-      isYAML(path) ||
-      path.includes('index.js') ||
-      path.includes('index.jsx') ||
-      path.includes('index.ts') ||
-      path.includes('index.tsx')
+    return camelize(
+      replacePostfix(
+        path
+          .replace(dir, '')
+          .replace(/\/(_)?([a-zA-Z0-9])/g, (_, d: string, c: string) => {
+            return c ? `/${d || ''}${c.toLowerCase()}` : `${d || ''}${c}`;
+          })
+      )
     );
   };
 }
