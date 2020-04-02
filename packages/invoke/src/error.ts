@@ -37,6 +37,10 @@ export function warn(
 export const enum ErrorCodes {
   // public errors
   NOT_A_DIR,
+  NO_ALIAS,
+  NOT_HAS_HOME,
+  MULTIPLE_PAGE,
+  WRONG_DIR_NAME,
 
   // options errors
   NO_DIR,
@@ -47,8 +51,14 @@ export const enum ErrorCodes {
 export const errorMessages = {
   // public errors
   [ErrorCodes.NOT_A_DIR]: 'must be a directory',
+  [ErrorCodes.NOT_HAS_HOME]:
+    'must set a page which called Index.vue,Index.js,Index.ts,Index.jsx,Index.tsx',
+  [ErrorCodes.MULTIPLE_PAGE]: 'there can only have one default page',
+  [ErrorCodes.WRONG_DIR_NAME]:
+    ', you can not name a directory which called index',
 
   // options errors
   [ErrorCodes.NO_DIR]: 'the dir option is needed',
+  [ErrorCodes.NO_ALIAS]: 'the alias option is needed',
   [ErrorCodes.WRONG_YML]: 'the yml option is not a valid yml name',
 };

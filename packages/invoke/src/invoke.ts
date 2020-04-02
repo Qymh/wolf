@@ -6,6 +6,7 @@ import { isYAML, replacePostfix, camelize } from './utils';
 
 export type Options = {
   dir: string;
+  alias: string;
   yml?: string | RegExp;
 
   getRelativePath?: (path: string) => string;
@@ -13,6 +14,7 @@ export type Options = {
 
 export const defaultOptions: Options = {
   dir: '',
+  alias: '',
   yml: 'meta.yml',
   getRelativePath: (path) => path,
 };
@@ -20,9 +22,12 @@ export const defaultOptions: Options = {
 export const baseIgnore = /(\.(j|t)s\.DS_Store)$/;
 
 function normalizeOptions(options: Options = defaultOptions) {
-  const { dir, yml } = options;
+  const { dir, yml, alias } = options;
   if (!dir) {
     error(ErrorCodes.NO_DIR);
+  }
+  if (!alias) {
+    error(ErrorCodes.NO_ALIAS);
   }
   if (yml) {
     if (typeof yml === 'string' && !isYAML(yml)) {
@@ -53,6 +58,7 @@ export class Invoke {
   public $options: Options;
   constructor(options: Options) {
     options = normalizeOptions(options);
+    process.env.WOLF_INVOKE_DIR = options.dir;
     this.$options = options;
   }
 

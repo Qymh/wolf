@@ -16,6 +16,10 @@ export function isVue(str: string) {
   return /\.vue$/i.test(str);
 }
 
+export function isJsOrTs(str: string) {
+  return /\.[j|t]sx?/.test(str);
+}
+
 export function isYAML(str: string) {
   return /\.yml$/i.test(str);
 }
