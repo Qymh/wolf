@@ -37,7 +37,7 @@ export function isFile(path: string) {
 }
 
 export function replacePostfix(path: string) {
-  return path.replace(/\..*$/, '');
+  return path.replace(/\.[a-zA-Z]*$/, '');
 }
 
 export function camelize(path: string) {

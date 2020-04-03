@@ -16,6 +16,7 @@ type DirectoryTree = {
   path: string;
   relativePath: string;
   children: Tree[];
+  defaultPage: string;
 };
 
 type RootTree = {
@@ -32,17 +33,6 @@ interface Tree extends RootTree {
   DirectoryTree: DirectoryTree;
   parent?: Tree;
 }
-
-/* eslint-disable no-unused-vars */
-const enum FileTypes {
-  Directory = 1,
-  VUE = 1 << 1,
-  YAML = 1 << 2,
-  UNKNOWN_FILE = 1 << 3,
-
-  FILE = VUE | YAML | UNKNOWN_FILE,
-}
-/* eslint-enable no-unused-vars */
 
 /* eslint-disable no-unused-vars */
 const enum RouteTypes {
@@ -68,13 +58,50 @@ function createTree(name: string = '', path: string = '', type?: RouteTypes) {
       path: '',
       relativePath: '',
       children: [],
+      defaultPage: '',
     },
   };
   return tree;
 }
 
-function isValidFileOrDir(path: string) {
-  path = path.toLowerCase();
+function getBasename(path: string) {
+  return /\/([^/]+)$/.exec(path)![1].toLowerCase();
+}
+
+function getDefaultPage(path: string): string {
+  if (/index$/i.test(path)) {
+    error(ErrorCodes.WRONG_DIR_NAME, `Error in ${path}`);
+    return '';
+  }
+  const baseName = getBasename(path);
+  const res = fs.readdirSync(path);
+  const checkRes = res.filter((v) => isValidFile(v));
+  const checkResTrip = checkRes.map((v) => replacePostfix(v).toLowerCase());
+  if (checkResTrip.length === 0) {
+    return '';
+  } else if (checkResTrip.length === 1) {
+    if (checkResTrip[0] === 'index' || checkResTrip[0] === baseName) {
+      return checkRes[0];
+    } else {
+      error(ErrorCodes.NOT_HAS_HOME, undefined, undefined, `where in ${path}`);
+      return '';
+    }
+  } else if (checkResTrip.length >= 2) {
+    if (checkResTrip.includes('index') && checkResTrip.includes(baseName)) {
+      errorForMultiplePage(path, checkRes);
+      return '';
+    } else if (checkResTrip.includes('index')) {
+      const index = checkResTrip.indexOf('index');
+      return checkRes[index];
+    } else if (checkResTrip.includes(baseName)) {
+      const index = checkResTrip.indexOf(baseName);
+      return checkRes[index];
+    }
+  }
+  return '';
+}
+
+function isValidFile(path: string) {
   return isVue(path) || isYAML(path) || isJsOrTs(path);
 }
 
@@ -109,25 +136,6 @@ function isDynamicPath(path: string) {
   return /^_.+/.test(path);
 }
 
-function getNestPath(tree: Tree) {
-  if (!tree.parent) {
-    return false;
-  }
-  while (tree.parent) {
-    if (
-      tree.parent.routeType === RouteTypes.NEST ||
-      tree.parent.routeType === RouteTypes.DYNAMIC_NEST
-    ) {
-      return tree.parent.nestPath;
-    }
-    if (tree.parent.parent) {
-      tree.parent = tree.parent.parent;
-    } else {
-      break;
-    }
-  }
-}
-
 function checkRouteTypes(path: string, parentPath: string) {
   const pathArr = pathToArr(path);
   const pathArrLast = pathArr[pathArr.length - 1];
@@ -155,65 +163,14 @@ function checkSimpleRouteTypes(pathArrLast: string, parentPathArrLast: string) {
   return RouteTypes.UNKNOWN;
 }
 
-function isInvokeDirFn(base: string, checkRes: string[]): boolean {
-  // home page
-  if (base === process.env.WOLF_INVOKE_DIR) {
-    return true;
-  }
-  checkRes = checkRes.map((v) => replacePostfix(v).toLowerCase());
-  const baseName = /\/([^/]+)$/.exec(base)![1].toLowerCase();
-  // single page index.vue index.js index.ts and so on or nest page
-  if (
-    checkRes.length === 1 &&
-    (checkRes[0] === 'index' || checkRes[0] === baseName)
-  ) {
-    return true;
-  }
-  if (
-    checkRes.length > 1 &&
-    (checkRes.includes('index') || checkRes.includes(baseName))
-  ) {
-    return true;
-  }
-  return false;
-}
-
-function checkPath(base: string) {
-  if (/index$/i.test(base)) {
-    error(ErrorCodes.WRONG_DIR_NAME, `Error in ${base}`);
-  }
-  const res = fs.readdirSync(base);
-  const checkRes = res.filter((v) => isValidFileOrDir(v));
-  const isInvokeDir = isInvokeDirFn(base, checkRes);
-  if (isInvokeDir) {
-    if (checkRes.length === 0) {
-      error(ErrorCodes.NOT_HAS_HOME, undefined, undefined, `where in ${base}`);
-    } else if (checkRes.length > 1) {
-      const postFix = Array.from(
-        new Set(checkRes.map((v) => v.match(/\.(\w+)$/)![1]))
-      );
-      // console.log(checkRes);
-      if (postFix.length === 1) {
-        errorForMultiplePage(base, checkRes);
-        return [];
-      }
-      return [];
-    } else {
-      return checkRes;
-    }
-  } else {
-    return [];
-  }
-}
-
 function setTreePath(tree: Tree, filePath: string) {
   tree.filePath = filePath;
   tree.aliasPath = filePath.replace(process.env.WOLF_INVOKE_DIR, '@');
 }
 
 function processDirectory(path: string, options: Options, parent: Tree) {
-  const checkRes = checkPath(path);
-  if (checkRes?.length === 0) {
+  const defaultPage = getDefaultPage(path);
+  if (!defaultPage) {
     return;
   }
   const tree = createTree();
@@ -222,6 +179,7 @@ function processDirectory(path: string, options: Options, parent: Tree) {
     path,
     relativePath,
     children: [],
+    defaultPage,
   };
   tree.parent = parent;
   parent.children.push(tree);
@@ -230,40 +188,62 @@ function processDirectory(path: string, options: Options, parent: Tree) {
 }
 
 function processFile(path: string, options: Options, tree: Tree) {
-  if (isValidFileOrDir(path) && tree.name !== 'index') {
+  if (isValidFile(path) && tree.name !== 'index') {
     const relativePath = options.getRelativePath!(path);
     const { DirectoryTree } = tree;
+    const baseName = getBasename(path);
+    if (baseName !== DirectoryTree.defaultPage.toLowerCase()) {
+      return;
+    }
     const DirectoryTreeRelativePath = DirectoryTree.relativePath;
     const routeType = checkRouteTypes(relativePath, DirectoryTreeRelativePath);
     tree.routeType = routeType;
-    let nestPath = getNestPath(tree);
+    let nestPath = tree.parent?.nestPath;
+
+    // set base name and base path
     tree.name = pathToName(DirectoryTreeRelativePath);
     tree.path = DirectoryTreeRelativePath;
     setTreePath(tree, path);
-    if (nestPath) {
-      if (routeType & RouteTypes.DYNAMIC_SINGLE) {
-        nestPath = nestPath.replace(/:/g, '_');
-        tree.path = DirectoryTreeRelativePath.replace(nestPath, '');
-      } else {
-        tree.path = DirectoryTreeRelativePath.replace(nestPath, '').slice(1);
-      }
-    }
+
+    // dynamic route
     if (routeType & RouteTypes.DYNAMIC) {
       tree.name = toDynamicName(tree.name);
       tree.path = toDynamicPath(tree.path);
       if (routeType === RouteTypes.DYNAMIC_NEST) {
         tree.nestPath = tree.path;
       }
-    } else {
+    }
+
+    // nested route
+    else {
       if (routeType === RouteTypes.NEST) {
-        tree.nestPath = DirectoryTreeRelativePath;
+        tree.nestPath = tree.nestPath || DirectoryTreeRelativePath;
       }
+    }
+
+    // nested route's children
+    if (nestPath) {
+      if (routeType & RouteTypes.DYNAMIC_SINGLE) {
+        nestPath = nestPath.replace(/:/g, '_');
+        tree.path = DirectoryTreeRelativePath.replace(nestPath, '').slice(1);
+      } else {
+        tree.path = DirectoryTreeRelativePath.replace(nestPath, '').slice(1);
+      }
+      tree.nestPath = DirectoryTreeRelativePath;
     }
   }
 }
 
+function sortFileFrontOfDir(pathArr: string[]) {
+  return pathArr.sort((a, b) => {
+    const fileA = /\.[a-zA-Z]+$/.test(a) ? 1 : -1;
+    const fileB = /\.[a-zA-Z]+$/.test(b) ? 1 : -1;
+    return fileB - fileA;
+  });
+}
+
 function patch(path: string, options: Options, tree: Tree) {
-  const res = fs.readdirSync(path);
+  const res = sortFileFrontOfDir(fs.readdirSync(path));
   for (const value of res) {
     const absolutePath = `${path}/${value}`;
     if (isDir(absolutePath)) {
@@ -279,8 +259,11 @@ export function genAST(dir: string, options: Options) {
     error(ErrorCodes.NOT_A_DIR, `the dir option ${dir}`);
     return;
   }
-  const checkRes = checkPath(dir);
-  setTreePath(rootTree, dir + '/' + checkRes![0]);
-  patch(dir, options, rootTree);
-  // console.dir(rootTree, { depth: null });
+  const defaultPage = getDefaultPage(dir);
+  if (defaultPage) {
+    setTreePath(rootTree, dir + '/' + defaultPage);
+    rootTree.DirectoryTree.defaultPage = defaultPage;
+    patch(dir, options, rootTree);
+    // console.dir(rootTree, { depth: null });
+  }
 }
