@@ -11,6 +11,7 @@ import {
 // eslint-disable-next-line no-unused-vars
 import { Options } from './invoke';
 import { error, ErrorCodes } from './error';
+import yaml from 'js-yaml';
 
 type DirectoryTree = {
   path: string;
@@ -29,9 +30,15 @@ type RootTree = {
   nestPath?: string;
 };
 
+type Route = {
+  meta?: Record<string, any>;
+  redirect?: string;
+};
+
 interface Tree extends RootTree {
   DirectoryTree: DirectoryTree;
   parent?: Tree;
+  route: Route;
 }
 
 /* eslint-disable no-unused-vars */
@@ -50,6 +57,7 @@ function createTree(name: string = '', path: string = '', type?: RouteTypes) {
   const tree: Tree = {
     name,
     path,
+    route: {},
     filePath: '',
     aliasPath: '',
     children: [],
@@ -69,6 +77,7 @@ function getBasename(path: string) {
 }
 
 function getDefaultPage(path: string): string {
+  // can not name directory as index
   if (/index$/i.test(path)) {
     error(ErrorCodes.WRONG_DIR_NAME, `Error in ${path}`);
     return '';
@@ -83,7 +92,6 @@ function getDefaultPage(path: string): string {
     if (checkResTrip[0] === 'index' || checkResTrip[0] === baseName) {
       return checkRes[0];
     } else {
-      error(ErrorCodes.NOT_HAS_HOME, undefined, undefined, `where in ${path}`);
       return '';
     }
   } else if (checkResTrip.length >= 2) {
@@ -189,48 +197,64 @@ function processDirectory(path: string, options: Options, parent: Tree) {
 
 function processFile(path: string, options: Options, tree: Tree) {
   if (isValidFile(path) && tree.name !== 'index') {
-    const relativePath = options.getRelativePath!(path);
     const { DirectoryTree } = tree;
     const baseName = getBasename(path);
-    if (baseName !== DirectoryTree.defaultPage.toLowerCase()) {
-      return;
+    if (baseName === DirectoryTree.defaultPage.toLowerCase()) {
+      processPage(path, options, tree);
+    } else if (isYAML(baseName)) {
+      processYAML(path, tree);
     }
-    const DirectoryTreeRelativePath = DirectoryTree.relativePath;
-    const routeType = checkRouteTypes(relativePath, DirectoryTreeRelativePath);
-    tree.routeType = routeType;
-    let nestPath = tree.parent?.nestPath;
+  }
+}
 
-    // set base name and base path
-    tree.name = pathToName(DirectoryTreeRelativePath);
-    tree.path = DirectoryTreeRelativePath;
-    setTreePath(tree, path);
+function processYAML(path: string, tree: Tree) {
+  const res = fs.readFileSync(path).toString();
+  try {
+    const route = yaml.safeLoad(res);
+    tree.route = route;
+  } catch (err) {
+    error(ErrorCodes.WRONG_PARSE_YML, path, '', err.message);
+  }
+}
 
-    // dynamic route
-    if (routeType & RouteTypes.DYNAMIC) {
-      tree.name = toDynamicName(tree.name);
-      tree.path = toDynamicPath(tree.path);
-      if (routeType === RouteTypes.DYNAMIC_NEST) {
-        tree.nestPath = tree.path;
-      }
+function processPage(path: string, options: Options, tree: Tree) {
+  const relativePath = options.getRelativePath!(path);
+  const { DirectoryTree } = tree;
+  const DirectoryTreeRelativePath = DirectoryTree.relativePath;
+  const routeType = checkRouteTypes(relativePath, DirectoryTreeRelativePath);
+  tree.routeType = routeType;
+  let nestPath = tree.parent?.nestPath;
+
+  // set base name and base path
+  tree.name = pathToName(DirectoryTreeRelativePath);
+  tree.path = DirectoryTreeRelativePath;
+  setTreePath(tree, path);
+
+  // dynamic route
+  if (routeType & RouteTypes.DYNAMIC) {
+    tree.name = toDynamicName(tree.name);
+    tree.path = toDynamicPath(tree.path);
+    if (routeType === RouteTypes.DYNAMIC_NEST) {
+      tree.nestPath = tree.path;
     }
+  }
 
-    // nested route
-    else {
-      if (routeType === RouteTypes.NEST) {
-        tree.nestPath = tree.nestPath || DirectoryTreeRelativePath;
-      }
+  // nested route
+  else {
+    if (routeType === RouteTypes.NEST) {
+      tree.nestPath = tree.nestPath || DirectoryTreeRelativePath;
     }
+  }
 
-    // nested route's children
-    if (nestPath) {
-      if (routeType & RouteTypes.DYNAMIC_SINGLE) {
-        nestPath = nestPath.replace(/:/g, '_');
-        tree.path = DirectoryTreeRelativePath.replace(nestPath, '').slice(1);
-      } else {
-        tree.path = DirectoryTreeRelativePath.replace(nestPath, '').slice(1);
-      }
-      tree.nestPath = DirectoryTreeRelativePath;
+  // nested route's children
+  if (nestPath) {
+    if (routeType & RouteTypes.DYNAMIC_SINGLE) {
+      nestPath = nestPath.replace(/:/g, '_');
+      tree.path = DirectoryTreeRelativePath.replace(nestPath, '').slice(1);
+    } else {
+      tree.path = DirectoryTreeRelativePath.replace(nestPath, '').slice(1);
     }
+    tree.nestPath = DirectoryTreeRelativePath;
   }
 }
 
@@ -264,6 +288,5 @@ export function genAST(dir: string, options: Options) {
     setTreePath(rootTree, dir + '/' + defaultPage);
     rootTree.DirectoryTree.defaultPage = defaultPage;
     patch(dir, options, rootTree);
-    // console.dir(rootTree, { depth: null });
   }
 }

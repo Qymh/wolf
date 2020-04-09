@@ -21,7 +21,7 @@ export function isJsOrTs(str: string) {
 }
 
 export function isYAML(str: string) {
-  return /\.yml$/i.test(str);
+  return /route\.yml$/i.test(str);
 }
 
 export function lowerCase(val: string) {

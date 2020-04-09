@@ -41,6 +41,7 @@ export const enum ErrorCodes {
   NOT_HAS_HOME,
   MULTIPLE_PAGE,
   WRONG_DIR_NAME,
+  WRONG_PARSE_YML,
 
   // options errors
   NO_DIR,
@@ -56,6 +57,7 @@ export const errorMessages = {
   [ErrorCodes.MULTIPLE_PAGE]: 'there can only have one default page',
   [ErrorCodes.WRONG_DIR_NAME]:
     ', you can not name a directory which called index',
+  [ErrorCodes.WRONG_PARSE_YML]: 'has some grammatical mistakes',
 
   // options errors
   [ErrorCodes.NO_DIR]: 'the dir option is needed',
