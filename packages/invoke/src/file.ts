@@ -1,7 +1,8 @@
 import fs from 'fs-extra';
 import cr from 'chokidar';
 import { isValidFile } from './ast';
-import { isYAML } from './utils';
+import { isYAML, clearConsole } from './utils';
+import { Options } from './invoke';
 
 let hasWatched = false;
 
@@ -9,7 +10,11 @@ function isInvokePath(path: string) {
   return /\.invoke/.test(path);
 }
 
-export function watchFiles(dir: string, fn: any) {
+export function watchFiles({ dir, dist }: Options, fn: any) {
+  function finish() {
+    clearConsole(dist!);
+    fn();
+  }
   if (!hasWatched) {
     hasWatched = true;
     const watcher = cr.watch(dir, {
@@ -24,20 +29,20 @@ export function watchFiles(dir: string, fn: any) {
         // directory
         if (details.type === 'directory') {
           if (events === 'created' || events === 'moved') {
-            fn();
+            finish();
           }
         }
         // file
         else if (details.type === 'file') {
           // force update when file is yaml
           if (isYAML(path)) {
-            fn();
+            finish();
           } else {
             if (
               (events === 'created' || events === 'moved') &&
               isValidFile(path)
             ) {
-              fn();
+              finish();
             }
           }
         }
@@ -45,7 +50,7 @@ export function watchFiles(dir: string, fn: any) {
     });
 
     // process at the first time
-    fn();
+    finish();
   }
 }
 

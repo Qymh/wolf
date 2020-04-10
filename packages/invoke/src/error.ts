@@ -1,5 +1,14 @@
 import chalk from 'chalk';
 
+export function success(path?: string) {
+  // eslint-disable-next-line no-console
+  console.log(
+    chalk.green(
+      `[@wolf/invoke] ${`successed build ${path} at ${new Date().toLocaleTimeString()}`}`
+    )
+  );
+}
+
 export function error(
   code: ErrorCodes,
   before?: string,

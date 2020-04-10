@@ -101,5 +101,5 @@ export function generate(options: Options) {
       outputFile(options.dist!, get());
     }
   };
-  watchFiles(options.dir, generatedFn);
+  watchFiles(options, generatedFn);
 }

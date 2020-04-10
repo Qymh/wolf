@@ -1,5 +1,7 @@
 // import fse from 'fs-extra';
-import fs from 'fs';
+import _fs from 'fs';
+import readline from 'readline';
+import { success } from './error';
 export type Dictionary<T = any> = {
   [x: string]: T;
 };
@@ -29,11 +31,11 @@ export function lowerCase(val: string) {
 }
 
 export function isDir(path: string) {
-  return fs.statSync(path).isDirectory();
+  return _fs.statSync(path).isDirectory();
 }
 
 export function isFile(path: string) {
-  return fs.statSync(path).isFile();
+  return _fs.statSync(path).isFile();
 }
 
 export function replacePostfix(path: string) {
@@ -44,4 +46,15 @@ export function camelize(path: string) {
   return path.replace(/(?:[-])(\w)/g, (_, c: string) => {
     return c ? c.toUpperCase() : c;
   });
+}
+
+export function clearConsole(path: string) {
+  if (process.stdout.isTTY) {
+    const blank = '\n'.repeat(process.stdout.rows);
+    // eslint-disable-next-line no-console
+    console.log(blank);
+    readline.cursorTo(process.stdout, 0, 0);
+    readline.clearScreenDown(process.stdout);
+    success(path);
+  }
 }
