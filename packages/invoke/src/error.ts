@@ -1,5 +1,4 @@
 import chalk from 'chalk';
-import assert from 'assert';
 
 export function error(
   code: ErrorCodes,
@@ -8,7 +7,7 @@ export function error(
   details?: string
 ) {
   // eslint-disable-next-line no-console
-  assert.fail(
+  console.log(
     chalk.red(
       `[@wolf/invoke] ${before || ''} ${errorMessages[code]} ${
         raw ? `, which get ${chalk.blueBright(raw)}` : ''
@@ -53,10 +52,10 @@ export const errorMessages = {
   // public errors
   [ErrorCodes.NOT_A_DIR]: 'must be a directory',
   [ErrorCodes.NOT_HAS_HOME]:
-    'must set a page which called Index.vue,Index.js,Index.ts,Index.jsx,Index.tsx',
+    'must set a default page which called Index.vue,Index.js,Index.ts,Index.jsx or Index.tsx',
   [ErrorCodes.MULTIPLE_PAGE]: 'there can only have one default page',
   [ErrorCodes.WRONG_DIR_NAME]:
-    ', you can not name a directory which called index',
+    ', you can not name a directory which called index or route',
   [ErrorCodes.WRONG_PARSE_YML]: 'has some grammatical mistakes',
 
   // options errors

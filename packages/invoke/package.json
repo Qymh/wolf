@@ -15,9 +15,13 @@
   ],
   "scripts": {},
   "dependencies": {
+    "@types/js-beautify": "^1.8.2",
+    "@types/js-yaml": "^3.12.3",
+    "js-beautify": "^1.11.0",
     "js-yaml": "^3.13.1"
   },
   "devDependencies": {
-    "@types/js-yaml": "^3.12.3"
+    "vue": "^3.0.0-alpha.11",
+    "vue-router": "4.0.0-alpha.5"
   }
 }

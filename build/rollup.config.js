@@ -36,7 +36,7 @@ const rollupConfig = {
       __DEV__: process.env.NODE_ENV !== 'production',
     }),
   ],
-  external: [...bt, 'chalk', 'fs-extra'],
+  external: [...bt, 'chalk', 'fs-extra', 'js-yaml', 'js-beautify', 'chokidar'],
 };
 
 let watched = false;

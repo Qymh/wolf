@@ -35,14 +35,14 @@ type Route = {
   redirect?: string;
 };
 
-interface Tree extends RootTree {
+export interface Tree extends RootTree {
   DirectoryTree: DirectoryTree;
   parent?: Tree;
   route: Route;
 }
 
 /* eslint-disable no-unused-vars */
-const enum RouteTypes {
+export const enum RouteTypes {
   SINGLE = 1,
   NEST = 1 << 1,
   DYNAMIC_SINGLE = 1 << 2,
@@ -78,7 +78,7 @@ function getBasename(path: string) {
 
 function getDefaultPage(path: string): string {
   // can not name directory as index
-  if (/index$/i.test(path)) {
+  if (/(index|route)$/i.test(path)) {
     error(ErrorCodes.WRONG_DIR_NAME, `Error in ${path}`);
     return '';
   }
@@ -109,7 +109,7 @@ function getDefaultPage(path: string): string {
   return '';
 }
 
-function isValidFile(path: string) {
+export function isValidFile(path: string) {
   return isVue(path) || isYAML(path) || isJsOrTs(path);
 }
 
@@ -121,8 +121,6 @@ function errorForMultiplePage(path: string, args: string[]) {
     `but now get ${args.join(' ')} where in ${path}`
   );
 }
-
-const rootTree = createTree('index', '/', RouteTypes.SINGLE);
 
 function toDynamicName(path: string) {
   return path.replace(/_/g, '');
@@ -250,10 +248,8 @@ function processPage(path: string, options: Options, tree: Tree) {
   if (nestPath) {
     if (routeType & RouteTypes.DYNAMIC_SINGLE) {
       nestPath = nestPath.replace(/:/g, '_');
-      tree.path = DirectoryTreeRelativePath.replace(nestPath, '').slice(1);
-    } else {
-      tree.path = DirectoryTreeRelativePath.replace(nestPath, '').slice(1);
     }
+    tree.path = DirectoryTreeRelativePath.replace(nestPath, '').slice(1);
     tree.nestPath = DirectoryTreeRelativePath;
   }
 }
@@ -278,15 +274,23 @@ function patch(path: string, options: Options, tree: Tree) {
   }
 }
 
-export function genAST(dir: string, options: Options) {
+export function genAST(
+  dir: string,
+  options: Options
+): Tree | never | undefined {
   if (!isDir(dir)) {
     error(ErrorCodes.NOT_A_DIR, `the dir option ${dir}`);
-    return;
+    process.exit(1);
   }
   const defaultPage = getDefaultPage(dir);
   if (defaultPage) {
+    const rootTree = createTree('index', '/', RouteTypes.SINGLE);
     setTreePath(rootTree, dir + '/' + defaultPage);
     rootTree.DirectoryTree.defaultPage = defaultPage;
     patch(dir, options, rootTree);
+    return rootTree;
+  } else {
+    error(ErrorCodes.NOT_HAS_HOME, dir);
+    return undefined;
   }
 }
