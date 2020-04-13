@@ -1,4 +1,6 @@
 import chalk from 'chalk';
+import { clearConsole } from './utils';
+import assert from 'assert';
 
 export function success(path?: string) {
   // eslint-disable-next-line no-console
@@ -15,13 +17,20 @@ export function error(
   raw?: any,
   details?: string
 ) {
-  // eslint-disable-next-line no-console
-  console.log(
-    chalk.red(
-      `[@wolf/invoke] ${before || ''} ${errorMessages[code]} ${
-        raw ? `, which get ${chalk.blueBright(raw)}` : ''
-      } ${details ? `, ${details}` : ''}`
-    )
+  clearConsole();
+  const err = new Error('test');
+  assert.throws(
+    () => {
+      const error = new Error(
+        chalk.red(
+          `[@wolf/invoke] ${before || ''} ${errorMessages[code]} ${
+            raw ? `, which get ${chalk.blueBright(raw)}` : ''
+          } ${details ? `, ${details}` : ''}`
+        )
+      );
+      throw error;
+    },
+    (e: typeof err) => {}
   );
 }
 
@@ -31,6 +40,7 @@ export function warn(
   raw?: any,
   details?: string
 ) {
+  clearConsole();
   // eslint-disable-next-line no-console
   console.log(
     chalk.yellow(
