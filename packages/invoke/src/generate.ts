@@ -70,18 +70,24 @@ function genRouteBuffer(push: PushBuffer, ast: Tree) {
       redirect: '${redirect}',
     `);
   }
-  if (
-    routeType === RouteTypes.SINGLE ||
-    routeType === RouteTypes.DYNAMIC_SINGLE
-  ) {
+  if (routeType & RouteTypes.SINGLE) {
     push('},');
     genRouteChildrenBuffer(push, ast.children);
-  } else if (routeType === RouteTypes.NEST) {
+  } else if (routeType & RouteTypes.NEST) {
     push(`
       children:[
     `);
     genRouteChildrenBuffer(push, ast.children);
     push('],},');
+  }
+}
+
+function genRouteOptionsBuffer(push: PushBuffer, options: Options) {
+  const { scrollBehavior } = options;
+  if (scrollBehavior) {
+    push(`
+      scrollBehavior: ${scrollBehavior.toString()},
+    `);
   }
 }
 
@@ -91,13 +97,36 @@ function genRouteChildrenBuffer(push: PushBuffer, children: Tree[]) {
   }
 }
 
+function genOptionsBuffer(push: PushBuffer, options: Options) {
+  const { beforeEach, afterEach } = options;
+  if (beforeEach) {
+    genGlobalGuards(push, 'beforeEach', beforeEach.toString());
+  }
+  if (afterEach) {
+    genGlobalGuards(push, 'afterEach', afterEach.toString());
+  }
+}
+
+function genGlobalGuards(
+  push: PushBuffer,
+  type: 'beforeEach' | 'afterEach',
+  beforeEach: string
+) {
+  push(`
+    router.${type}(${beforeEach});
+  `);
+}
+
 export function generate(options: Options) {
   const generatedFn = () => {
     const ast = genAST(options.dir, options);
+    // console.dir(ast, { depth: null });
     if (ast) {
       const { push, get } = createBuffer(options);
       genRoutesBuffer(push, ast);
+      genRouteOptionsBuffer(push, options);
       push('});');
+      genOptionsBuffer(push, options);
       outputFile(options.dist!, get());
     }
   };

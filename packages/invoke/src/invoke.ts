@@ -1,5 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import { Compiler } from 'webpack';
+// eslint-disable-next-line no-unused-vars
+import { NavigationGuard, RouterOptions } from 'vue-router';
 import { generate } from './generate';
 import { ErrorCodes, error } from './error';
 import { replacePostfix, camelize } from './utils';
@@ -12,6 +14,12 @@ export type Options = {
   mode?: 'history' | 'hash';
 
   getRelativePath?: (path: string) => string;
+
+  // raw vue-router options
+
+  beforeEach?: NavigationGuard;
+  afterEach?: NavigationGuard;
+  scrollBehavior?: RouterOptions['scrollBehavior'];
 };
 
 export const defaultOptions: Options = {

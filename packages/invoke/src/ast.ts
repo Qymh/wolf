@@ -43,13 +43,16 @@ export interface Tree extends RootTree {
 
 /* eslint-disable no-unused-vars */
 export const enum RouteTypes {
-  SINGLE = 1,
-  NEST = 1 << 1,
+  SIMPLE_SINGLE = 1,
   DYNAMIC_SINGLE = 1 << 2,
-  DYNAMIC_NEST = 1 << 3,
-  UNKNOWN = 1 << 4,
 
+  SIMPLE_NEST = 1 << 3,
+  DYNAMIC_NEST = 1 << 4,
+
+  SINGLE = SIMPLE_SINGLE | DYNAMIC_SINGLE,
+  NEST = SIMPLE_NEST | DYNAMIC_NEST,
   DYNAMIC = DYNAMIC_SINGLE | DYNAMIC_NEST,
+  UNKNOWN = 1 << 4,
 }
 /* eslint-enable no-unused-vars */
 
@@ -123,11 +126,11 @@ function errorForMultiplePage(path: string, args: string[]) {
 }
 
 function toDynamicName(path: string) {
-  return path.replace(/_/g, '');
+  return path.replace(/^_/g, '').replace(/-_/g, '-');
 }
 
 function toDynamicPath(path: string) {
-  return path.replace(/\/_/g, '/:');
+  return path.replace(/^_/g, ':').replace(/\/_/g, '/:');
 }
 
 function pathToArr(path: string) {
@@ -148,10 +151,10 @@ function checkRouteTypes(path: string, parentPath: string) {
   const parentPathArr = pathToArr(parentPath);
   const parentPathArrLast = parentPathArr[parentPathArr.length - 1];
   const simpleType = checkSimpleRouteTypes(pathArrLast, parentPathArrLast);
-  if (pathArr.some((v) => isDynamicPath(v))) {
-    if (simpleType === RouteTypes.SINGLE) {
+  if (isDynamicPath(pathArrLast)) {
+    if (simpleType === RouteTypes.SIMPLE_SINGLE) {
       return RouteTypes.DYNAMIC_SINGLE;
-    } else if (simpleType === RouteTypes.NEST) {
+    } else if (simpleType === RouteTypes.SIMPLE_NEST) {
       return RouteTypes.DYNAMIC_NEST;
     } else {
       return simpleType;
@@ -162,9 +165,9 @@ function checkRouteTypes(path: string, parentPath: string) {
 
 function checkSimpleRouteTypes(pathArrLast: string, parentPathArrLast: string) {
   if (pathArrLast === parentPathArrLast) {
-    return RouteTypes.NEST;
+    return RouteTypes.SIMPLE_NEST;
   } else if (pathArrLast === 'index') {
-    return RouteTypes.SINGLE;
+    return RouteTypes.SIMPLE_SINGLE;
   }
   return RouteTypes.UNKNOWN;
 }
@@ -209,9 +212,20 @@ function processYAML(path: string, tree: Tree) {
   const res = fs.readFileSync(path).toString();
   try {
     const route = yaml.safeLoad(res);
-    tree.route = route;
+    tree.route = route || {};
   } catch (err) {
+    tree.route = {};
     error(ErrorCodes.WRONG_PARSE_YML, path, '', err.message);
+  }
+}
+
+function findParentNestPath(tree: Tree) {
+  let vm = tree;
+  while (vm.parent) {
+    if (vm.parent.routeType & RouteTypes.NEST) {
+      return vm.parent.path;
+    }
+    vm = vm.parent;
   }
 }
 
@@ -219,9 +233,10 @@ function processPage(path: string, options: Options, tree: Tree) {
   const relativePath = options.getRelativePath!(path);
   const { DirectoryTree } = tree;
   const DirectoryTreeRelativePath = DirectoryTree.relativePath;
+  // console.log(relativePath, DirectoryTreeRelativePath);
   const routeType = checkRouteTypes(relativePath, DirectoryTreeRelativePath);
   tree.routeType = routeType;
-  let nestPath = tree.parent?.nestPath;
+  const nestPath = findParentNestPath(tree);
 
   // set base name and base path
   tree.name = pathToName(DirectoryTreeRelativePath);
@@ -234,23 +249,33 @@ function processPage(path: string, options: Options, tree: Tree) {
     tree.path = toDynamicPath(tree.path);
     if (routeType === RouteTypes.DYNAMIC_NEST) {
       tree.nestPath = tree.path;
+      if (nestPath) {
+        tree.path = tree.path.replace(nestPath, '').slice(1);
+      }
+    } else {
+      if (nestPath) {
+        tree.path = tree.path.replace(nestPath, '').slice(1);
+      }
     }
   }
 
   // nested route
-  else {
-    if (routeType === RouteTypes.NEST) {
-      tree.nestPath = tree.nestPath || DirectoryTreeRelativePath;
+  else if (routeType & RouteTypes.NEST) {
+    tree.nestPath = DirectoryTreeRelativePath;
+    if (nestPath) {
+      tree.path = tree.path.replace(nestPath, '').slice(1);
     }
   }
 
-  // nested route's children
-  if (nestPath) {
-    if (routeType & RouteTypes.DYNAMIC_SINGLE) {
-      nestPath = nestPath.replace(/:/g, '_');
+  // single route
+  else {
+    if (nestPath) {
+      // tree.path = tree.path.replace(nestPath, '').slice(1);
+      // if (routeType & RouteTypes.DYNAMIC_SINGLE) {
+      //   nestPath = nestPath.replace(/:/g, '_');
+      // }
+      // tree.nestPath = DirectoryTreeRelativePath;
     }
-    tree.path = DirectoryTreeRelativePath.replace(nestPath, '').slice(1);
-    tree.nestPath = DirectoryTreeRelativePath;
   }
 }
 
@@ -284,7 +309,7 @@ export function genAST(
   }
   const defaultPage = getDefaultPage(dir);
   if (defaultPage) {
-    const rootTree = createTree('index', '/', RouteTypes.SINGLE);
+    const rootTree = createTree('index', '/', RouteTypes.SIMPLE_SINGLE);
     setTreePath(rootTree, dir + '/' + defaultPage);
     rootTree.DirectoryTree.defaultPage = defaultPage;
     patch(dir, options, rootTree);
