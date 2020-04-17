@@ -33,15 +33,12 @@ export const defaultOptions: Options = {
 
 function normalizeOptions(options: Options): Options | never {
   options = { ...defaultOptions, ...options };
-  const { dir, alias, type } = options;
+  const { dir, type } = options;
   if (!dir) {
     error(ErrorCodes.NO_DIR);
     process.exit(1);
   }
-  if (!alias) {
-    error(ErrorCodes.NO_ALIAS);
-    process.exit(1);
-  }
+  options.alias = dir;
 
   options.getRelativePath = generateGetRelativePathFn(dir);
   options.dist = dir + `/.invoke/router.${type === 'javascript' ? 'js' : 'ts'}`;

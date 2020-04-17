@@ -35,8 +35,8 @@ const base = {
       template: resolve('index.html'),
     }),
     new Invoke({
-      dir: resolve('viewss'),
-      alias: resolve('viewss'),
+      dir: resolve('views'),
+      alias: resolve('views'),
     }),
   ],
   resolve: {

@@ -48,10 +48,15 @@ export const router = createRouter({
 
                 {
                   name: 'multipleNest-inner1-inner2-inner3',
-                  path: '/multipleNest/inner1/inner2/inner3',
+                  path: 'inner3',
                   component: () => import('@/multipleNest/inner1/inner2/inner3/index.ts'),
                 },
               ],
+            },
+            {
+              name: 'multipleNest-inner1-single',
+              path: 'single',
+              component: () => import('@/multipleNest/inner1/single/index.ts'),
             },
           ],
         },
@@ -81,12 +86,12 @@ export const router = createRouter({
 
         {
           name: 'nest-inner',
-          path: '/nest/inner',
+          path: 'inner',
           component: () => import('@/nest/inner/index.ts'),
         },
         {
           name: 'nest-inner-dynamic',
-          path: '/nest/inner/:dynamic',
+          path: 'inner/:dynamic',
           component: () => import('@/nest/inner/_dynamic/index.ts'),
         },
       ],
@@ -100,12 +105,12 @@ export const router = createRouter({
 
         {
           name: 'nestVue-inner',
-          path: '/nestVue/inner',
+          path: 'inner',
           component: () => import('@/nestVue/inner/index.vue'),
         },
         {
           name: 'nestVue-inner-dynamic',
-          path: '/nestVue/inner/:dynamic',
+          path: 'inner/:dynamic',
           component: () => import('@/nestVue/inner/_dynamic/index.vue'),
         },
       ],
