@@ -18,6 +18,13 @@ const configs = {
       format: 'cjs',
     },
   },
+  cli: {
+    input: resolve('bin/wolf.ts'),
+    output: {
+      file: resolve('bin/wolf.js'),
+      format: 'cjs',
+    },
+  },
 };
 
 const config = configs[target];
@@ -36,7 +43,16 @@ const rollupConfig = {
       __DEV__: process.env.NODE_ENV !== 'production',
     }),
   ],
-  external: [...bt, 'chalk', 'fs-extra', 'js-yaml', 'js-beautify', 'chokidar'],
+  external: [
+    ...bt,
+    'chalk',
+    'fs-extra',
+    'js-yaml',
+    'js-beautify',
+    'chokidar',
+    'commander',
+    'minimist',
+  ],
 };
 
 let watched = false;

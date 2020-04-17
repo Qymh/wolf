@@ -1,0 +1,24 @@
+{
+  "name": "cli",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Qymh <415570450@qq.com>",
+  "homepage": "https://github.com/Qymh/wolf#readme",
+  "license": "ISC",
+  "main": "lib/cli.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "chalk": "^4.0.0",
+    "commander": "^5.0.0",
+    "minimist": "^1.2.5"
+  }
+}
