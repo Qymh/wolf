@@ -4,7 +4,8 @@ import { Compiler } from 'webpack';
 import { NavigationGuard, RouterOptions } from 'vue-router';
 import { generate } from './generate';
 import { ErrorCodes, error } from './error';
-import { replacePostfix, camelize } from './utils';
+import { replacePostfix } from './utils';
+import { camelize } from 'packages/@wolf/shared/src';
 
 export type Options = {
   dir: string;

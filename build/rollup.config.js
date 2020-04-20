@@ -8,7 +8,8 @@ const bt = require('builtin-modules');
 const execa = require('execa');
 const cr = require('chokidar');
 const target = process.env.TARGET;
-const resolve = (str) => path.resolve(process.cwd(), 'packages', target, str);
+const resolve = (str) =>
+  path.resolve(process.cwd(), 'packages/@wolf', target, str);
 
 const configs = {
   invoke: {
@@ -52,6 +53,7 @@ const rollupConfig = {
     'chokidar',
     'commander',
     'minimist',
+    '@hapi/joi',
   ],
 };
 
