@@ -1,5 +1,9 @@
+const path = require('path');
+
 module.exports = {
   cli: {
-    generate: {},
+    generate: {
+      dir: path.resolve(__dirname, 'demo'),
+    },
   },
 };

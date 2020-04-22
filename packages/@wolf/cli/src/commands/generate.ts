@@ -6,16 +6,13 @@ import {
   Dictionary,
   tuple,
   getConfig,
-} from 'packages/@wolf/shared/src';
+  baseConfig,
+  inquirer,
+  chalk,
+  fs,
+} from '@wolf/shared';
 import { error } from '../utils';
-// eslint-disable-next-line no-unused-vars
-// import { Dictionary } from 'packages/@wolf/shared/src';
-
-const defaultArgs = {
-  type: 'single',
-  language: 'ts',
-  preprocessor: 'scss',
-};
+import path from 'path';
 
 const typeValue = tuple(
   's',
@@ -28,7 +25,7 @@ const typeValue = tuple(
   'nest-dynamic'
 );
 
-const languageValue = tuple('js', 'jsx', 'ts', 'tsx');
+const languageValue = tuple('js', 'jsx', 'ts', 'tsx', 'vue');
 
 const preprocessorValue = tuple('css', 'less', 'sass', 'scss');
 
@@ -50,28 +47,65 @@ function validate(args: Dictionary) {
   error(_error?.message);
 }
 
-function generateFiles(name: string, args: GenerateArgs) {
-  const files = [];
-  let dirName = '';
-  const { type, language, preprocessor } = args;
+function getFileName(name: string, args: GenerateArgs) {
+  let fileName = '';
+  const { type } = args;
   if (type === 'n' || type === 'nest') {
-    dirName = name;
+    fileName = name;
   } else if (type === 'nest-dynamic' || type === 'nd') {
-    dirName = `_${name}`;
+    fileName = `_${name}`;
   } else if (type === 'single-dynamic' || type === 'sd') {
-    dirName = '_index';
+    fileName = '_index';
   } else {
-    dirName = 'index';
+    fileName = 'index';
   }
-  files.push(`${dirName}.${language}`);
-  files.push(`index.${preprocessor}`);
-  return {
-    dirName,
-    files,
-  };
+  return fileName;
 }
 
-function outputFiles(dirName: string, files: string[]) {}
+async function outputFiles(
+  name: string,
+  fileName: string,
+  config: typeof baseConfig
+) {
+  const { dir, language, preprocessor, template } = config.cli.generate;
+  const realDir = path.resolve(dir, name);
+
+  function writeFiles() {
+    fs.mkdirSync(realDir);
+    const mainFile = path.resolve(realDir, `${fileName}.${language}`);
+    const mainCss = path.resolve(realDir, `index.${preprocessor}`);
+    const base = template[language as GenerateArgs['language']](
+      name,
+      preprocessor
+    );
+
+    fs.outputFileSync(mainFile, base);
+    if (language !== 'vue') {
+      fs.outputFileSync(mainCss, '');
+    }
+  }
+
+  if (fs.existsSync(realDir)) {
+    await inquirer
+      .prompt({
+        name: 'overrideDir',
+        type: 'confirm',
+        message: `${chalk.blue(
+          realDir
+        )} is existed, are you sure to override it?`,
+      })
+      .then((res) => {
+        if (!res.overrideDir) {
+          process.exit();
+        } else {
+          fs.removeSync(realDir);
+          writeFiles();
+        }
+      });
+  } else {
+    writeFiles();
+  }
+}
 
 export const indentifier: Indentifier = {
   command: 'generate <directory-name>',
@@ -87,7 +121,7 @@ export const indentifier: Indentifier = {
     {
       flag: 'l',
       details: 'language <language-ext>',
-      desc: 'javascript language (js jsx ts tsx)',
+      desc: 'javascript language (js jsx ts tsx vue)',
       default: 'ts',
     },
     {
@@ -97,12 +131,13 @@ export const indentifier: Indentifier = {
       default: 'scss',
     },
   ],
-  action(name, cmd, args: GenerateArgs) {
+  async action(name, cmd, args: GenerateArgs) {
     const config = getConfig();
-    console.log(config);
-    args = { ...defaultArgs, ...args };
+    const { type, language, preprocessor } = config.cli.generate;
+    args = { type, language, preprocessor, ...args };
     validate(args);
-    const { dirName, files } = generateFiles(name, args);
-    outputFiles(dirName, files);
+    config.cli.generate = { ...config.cli.generate, ...args };
+    const fileName = getFileName(name, args);
+    await outputFiles(name, fileName, config);
   },
 };

@@ -2,12 +2,9 @@
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var fs = _interopDefault(require('fs-extra'));
-var path = _interopDefault(require('path'));
-var joi = _interopDefault(require('@hapi/joi'));
-var program = _interopDefault(require('commander'));
+var shared = require('@wolf/shared');
 var assert = _interopDefault(require('assert'));
-var chalk = _interopDefault(require('chalk'));
+var path = _interopDefault(require('path'));
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -35,80 +32,106 @@ var __assign = function () {
     };
     return __assign.apply(this, arguments);
 };
-
-function camelize(path) {
-    return path.replace(/(?:[-])(\w)/g, function (_, c) {
-        return c ? c.toUpperCase() : c;
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try {
+            step(generator.next(value));
+        }
+        catch (e) {
+            reject(e);
+        } }
+        function rejected(value) { try {
+            step(generator["throw"](value));
+        }
+        catch (e) {
+            reject(e);
+        } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 }
-function tuple() {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function () { if (t[0] & 1)
+            throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function () { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f)
+            throw new TypeError("Generator is already executing.");
+        while (_)
+            try {
+                if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done)
+                    return t;
+                if (y = 0, t)
+                    op = [op[0] & 2, t.value];
+                switch (op[0]) {
+                    case 0:
+                    case 1:
+                        t = op;
+                        break;
+                    case 4:
+                        _.label++;
+                        return { value: op[1], done: false };
+                    case 5:
+                        _.label++;
+                        y = op[1];
+                        op = [0];
+                        continue;
+                    case 7:
+                        op = _.ops.pop();
+                        _.trys.pop();
+                        continue;
+                    default:
+                        if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+                            _ = 0;
+                            continue;
+                        }
+                        if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) {
+                            _.label = op[1];
+                            break;
+                        }
+                        if (op[0] === 6 && _.label < t[1]) {
+                            _.label = t[1];
+                            t = op;
+                            break;
+                        }
+                        if (t && _.label < t[2]) {
+                            _.label = t[2];
+                            _.ops.push(op);
+                            break;
+                        }
+                        if (t[2])
+                            _.ops.pop();
+                        _.trys.pop();
+                        continue;
+                }
+                op = body.call(thisArg, _);
+            }
+            catch (e) {
+                op = [6, e];
+                y = 0;
+            }
+            finally {
+                f = t = 0;
+            }
+        if (op[0] & 5)
+            throw op[1];
+        return { value: op[0] ? op[1] : void 0, done: true };
     }
-    return args;
-}
-function toRawObject(val) {
-    return Object.prototype.toString.call(val).slice(8, -1);
-}
-function merge(a, b) {
-    var cloneA = JSON.parse(JSON.stringify(a));
-    for (var key in b) {
-        var bitem = b[key];
-        var aitem = cloneA[key];
-        if (toRawObject(aitem) === 'Object') {
-            b[key] = merge(aitem, bitem);
-        }
-        else if (aitem) {
-            b[key] = aitem;
-        }
-    }
-    return cloneA;
-}
-
-var baseConfig = {
-    cli: {
-        generate: {
-            type: 'single',
-            language: 'ts',
-            preprocessor: 'scss',
-        },
-    },
-};
-function getConfig() {
-    var context = process.cwd();
-    var configNames = ['wolf.config.js', 'wolf.config.ts'];
-    for (var _i = 0, configNames_1 = configNames; _i < configNames_1.length; _i++) {
-        var name_1 = configNames_1[_i];
-        var file = path.resolve(context, name_1);
-        if (fs.existsSync(file)) {
-            var userConfig = require(file);
-            return merge(baseConfig, userConfig);
-        }
-    }
-    return baseConfig;
-}
-
-function createSchema(fn) {
-    return fn(joi);
 }
 
 function error(msg) {
     if (msg) {
-        assert.fail(chalk.red("[@wolf/invoke] " + chalk.red(msg)));
+        assert.fail(shared.chalk.red("[@wolf/invoke] " + shared.chalk.red(msg)));
     }
 }
 
-var defaultArgs = {
-    type: 'single',
-    language: 'ts',
-    preprocessor: 'scss',
-};
-var typeValue = tuple('s', 'single', 'n', 'nest', 'sd', 'single-dynamic', 'nd', 'nest-dynamic');
-var languageValue = tuple('js', 'jsx', 'ts', 'tsx');
-var preprocessorValue = tuple('css', 'less', 'sass', 'scss');
+var typeValue = shared.tuple('s', 'single', 'n', 'nest', 'sd', 'single-dynamic', 'nd', 'nest-dynamic');
+var languageValue = shared.tuple('js', 'jsx', 'ts', 'tsx', 'vue');
+var preprocessorValue = shared.tuple('css', 'less', 'sass', 'scss');
 function validate(args) {
-    var schema = createSchema(function (joi) {
+    var schema = shared.createSchema(function (joi) {
         var _a, _b, _c;
         return joi.object({
             type: (_a = joi.string()).valid.apply(_a, typeValue),
@@ -119,28 +142,67 @@ function validate(args) {
     var _error = schema.validate(args).error;
     error(_error === null || _error === void 0 ? void 0 : _error.message);
 }
-function generateFiles(name, args) {
-    var files = [];
-    var dirName = '';
-    var type = args.type, language = args.language, preprocessor = args.preprocessor;
+function getFileName(name, args) {
+    var fileName = '';
+    var type = args.type;
     if (type === 'n' || type === 'nest') {
-        dirName = name;
+        fileName = name;
     }
     else if (type === 'nest-dynamic' || type === 'nd') {
-        dirName = "_" + name;
+        fileName = "_" + name;
     }
     else if (type === 'single-dynamic' || type === 'sd') {
-        dirName = '_index';
+        fileName = '_index';
     }
     else {
-        dirName = 'index';
+        fileName = 'index';
     }
-    files.push(dirName + "." + language);
-    files.push("index." + preprocessor);
-    return {
-        dirName: dirName,
-        files: files,
-    };
+    return fileName;
+}
+function outputFiles(name, fileName, config) {
+    return __awaiter(this, void 0, void 0, function () {
+        function writeFiles() {
+            shared.fs.mkdirSync(realDir);
+            var mainFile = path.resolve(realDir, fileName + "." + language);
+            var mainCss = path.resolve(realDir, "index." + preprocessor);
+            var base = template[language](name, preprocessor);
+            shared.fs.outputFileSync(mainFile, base);
+            if (language !== 'vue') {
+                shared.fs.outputFileSync(mainCss, '');
+            }
+        }
+        var _a, dir, language, preprocessor, template, realDir;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = config.cli.generate, dir = _a.dir, language = _a.language, preprocessor = _a.preprocessor, template = _a.template;
+                    realDir = path.resolve(dir, name);
+                    if (!shared.fs.existsSync(realDir)) return [3, 2];
+                    return [4, shared.inquirer
+                            .prompt({
+                            name: 'overrideDir',
+                            type: 'confirm',
+                            message: shared.chalk.blue(realDir) + " is existed, are you sure to override it?",
+                        })
+                            .then(function (res) {
+                            if (!res.overrideDir) {
+                                process.exit();
+                            }
+                            else {
+                                shared.fs.removeSync(realDir);
+                                writeFiles();
+                            }
+                        })];
+                case 1:
+                    _b.sent();
+                    return [3, 3];
+                case 2:
+                    writeFiles();
+                    _b.label = 3;
+                case 3: return [2];
+            }
+        });
+    });
 }
 var indentifier = {
     command: 'generate <directory-name>',
@@ -155,7 +217,7 @@ var indentifier = {
         {
             flag: 'l',
             details: 'language <language-ext>',
-            desc: 'javascript language (js jsx ts tsx)',
+            desc: 'javascript language (js jsx ts tsx vue)',
             default: 'ts',
         },
         {
@@ -166,18 +228,31 @@ var indentifier = {
         },
     ],
     action: function (name, cmd, args) {
-        var config = getConfig();
-        console.log(config);
-        args = __assign(__assign({}, defaultArgs), args);
-        validate(args);
-        var _a = generateFiles(name, args);
+        return __awaiter(this, void 0, void 0, function () {
+            var config, _a, type, language, preprocessor, fileName;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        config = shared.getConfig();
+                        _a = config.cli.generate, type = _a.type, language = _a.language, preprocessor = _a.preprocessor;
+                        args = __assign({ type: type, language: language, preprocessor: preprocessor }, args);
+                        validate(args);
+                        config.cli.generate = __assign(__assign({}, config.cli.generate), args);
+                        fileName = getFileName(name, args);
+                        return [4, outputFiles(name, fileName, config)];
+                    case 1:
+                        _b.sent();
+                        return [2];
+                }
+            });
+        });
     },
 };
 
 function cleanArgs(cmd) {
     var args = {};
     cmd.options.forEach(function (o) {
-        var key = camelize(o.long.replace(/^--/, ''));
+        var key = shared.camelize(o.long.replace(/^--/, ''));
         if (typeof cmd[key] !== 'function' && typeof cmd[key] !== 'undefined') {
             args[key] = cmd[key];
         }
@@ -191,7 +266,7 @@ function generateCommander() {
     }
     return function () {
         var _loop_1 = function (command, description, options, action) {
-            var com = program.command(command).description(description);
+            var com = shared.program.command(command).description(description);
             for (var _i = 0, options_1 = options; _i < options_1.length; _i++) {
                 var _a = options_1[_i], flag = _a.flag, details = _a.details, desc = _a.desc, defaultValue = _a.default;
                 com.option("-" + flag + ", --" + details + ", " + desc + "s, " + defaultValue);
@@ -205,7 +280,7 @@ function generateCommander() {
             var _a = args_1[_i], command = _a.command, description = _a.description, options = _a.options, action = _a.action;
             _loop_1(command, description, options, action);
         }
-        program.parse(process.argv);
+        shared.program.parse(process.argv);
     };
 }
 var Commanders = generateCommander(indentifier);

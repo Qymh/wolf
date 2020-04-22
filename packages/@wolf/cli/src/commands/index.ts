@@ -1,7 +1,6 @@
 import { indentifier as GenerateIndentifier } from './generate';
-import { program } from '../utils';
 // eslint-disable-next-line no-unused-vars
-import { camelize, Dictionary } from 'packages/@wolf/shared/src';
+import { program, camelize, Dictionary } from '@wolf/shared';
 
 export type Indentifier = {
   command: string;

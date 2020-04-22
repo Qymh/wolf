@@ -1,8 +1,5 @@
-import program from 'commander';
 import assert from 'assert';
-import chalk from 'chalk';
-
-export { program };
+import { chalk } from '@wolf/shared';
 
 export function error(msg?: string) {
   if (msg) {

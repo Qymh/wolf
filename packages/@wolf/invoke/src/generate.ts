@@ -2,7 +2,7 @@
 import { Options } from './invoke';
 // eslint-disable-next-line no-unused-vars
 import { genAST, Tree, RouteTypes } from './ast';
-import beautify from 'js-beautify';
+import { beautify } from '@wolf/shared';
 import { watchFiles, outputFile } from './file';
 
 type PushBuffer = (str: string) => void;

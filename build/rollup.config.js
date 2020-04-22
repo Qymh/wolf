@@ -26,6 +26,13 @@ const configs = {
       format: 'cjs',
     },
   },
+  shared: {
+    input: resolve('src/index.ts'),
+    output: {
+      file: resolve('dist/shared.dev.js'),
+      format: 'cjs',
+    },
+  },
 };
 
 const config = configs[target];
@@ -44,8 +51,13 @@ const rollupConfig = {
       __DEV__: process.env.NODE_ENV !== 'production',
     }),
   ],
-  external: [
-    ...bt,
+  external: [...bt, '@wolf/shared'],
+};
+
+let watched = false;
+
+if (target === 'shared') {
+  rollupConfig.external.push(
     'chalk',
     'fs-extra',
     'js-yaml',
@@ -54,10 +66,9 @@ const rollupConfig = {
     'commander',
     'minimist',
     '@hapi/joi',
-  ],
-};
-
-let watched = false;
+    'inquirer'
+  );
+}
 
 if (target === 'invoke') {
   if (!watched) {
