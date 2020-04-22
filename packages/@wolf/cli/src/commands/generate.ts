@@ -5,6 +5,7 @@ import {
   // eslint-disable-next-line no-unused-vars
   Dictionary,
   tuple,
+  getConfig,
 } from 'packages/@wolf/shared/src';
 import { error } from '../utils';
 // eslint-disable-next-line no-unused-vars
@@ -97,6 +98,8 @@ export const indentifier: Indentifier = {
     },
   ],
   action(name, cmd, args: GenerateArgs) {
+    const config = getConfig();
+    console.log(config);
     args = { ...defaultArgs, ...args };
     validate(args);
     const { dirName, files } = generateFiles(name, args);

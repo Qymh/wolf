@@ -2,6 +2,8 @@
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
+var fs = _interopDefault(require('fs-extra'));
+var path = _interopDefault(require('path'));
 var joi = _interopDefault(require('@hapi/joi'));
 var program = _interopDefault(require('commander'));
 var assert = _interopDefault(require('assert'));
@@ -39,15 +41,56 @@ function camelize(path) {
         return c ? c.toUpperCase() : c;
     });
 }
-function createSchema(fn) {
-    return fn(joi);
-}
 function tuple() {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         args[_i] = arguments[_i];
     }
     return args;
+}
+function toRawObject(val) {
+    return Object.prototype.toString.call(val).slice(8, -1);
+}
+function merge(a, b) {
+    var cloneA = JSON.parse(JSON.stringify(a));
+    for (var key in b) {
+        var bitem = b[key];
+        var aitem = cloneA[key];
+        if (toRawObject(aitem) === 'Object') {
+            b[key] = merge(aitem, bitem);
+        }
+        else if (aitem) {
+            b[key] = aitem;
+        }
+    }
+    return cloneA;
+}
+
+var baseConfig = {
+    cli: {
+        generate: {
+            type: 'single',
+            language: 'ts',
+            preprocessor: 'scss',
+        },
+    },
+};
+function getConfig() {
+    var context = process.cwd();
+    var configNames = ['wolf.config.js', 'wolf.config.ts'];
+    for (var _i = 0, configNames_1 = configNames; _i < configNames_1.length; _i++) {
+        var name_1 = configNames_1[_i];
+        var file = path.resolve(context, name_1);
+        if (fs.existsSync(file)) {
+            var userConfig = require(file);
+            return merge(baseConfig, userConfig);
+        }
+    }
+    return baseConfig;
+}
+
+function createSchema(fn) {
+    return fn(joi);
 }
 
 function error(msg) {
@@ -123,6 +166,8 @@ var indentifier = {
         },
     ],
     action: function (name, cmd, args) {
+        var config = getConfig();
+        console.log(config);
         args = __assign(__assign({}, defaultArgs), args);
         validate(args);
         var _a = generateFiles(name, args);

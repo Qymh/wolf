@@ -32,6 +32,6 @@
     // 使用的JSX工厂函数
     "jsxFactory": "h"
   },
-  "include": ["**/*.ts", "**/*.d.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "**/*.js"]
+  "include": ["**/*.ts", "**/*.d.ts", "**/*.tsx", "**/*.js"],
+  "exclude": ["node_modules"]
 }
