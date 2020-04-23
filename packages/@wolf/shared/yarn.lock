@@ -2,25 +2,6 @@
 # yarn lockfile v1
 
 
-"@babel/helper-validator-identifier@^7.9.5":
-  version "7.9.5"
-  resolved "https://registry.npm.taobao.org/@babel/helper-validator-identifier/download/@babel/helper-validator-identifier-7.9.5.tgz#90977a8e6fbf6b431a7dc31752eee233bf052d80"
-  integrity sha1-kJd6jm+/a0MafcMXUu7iM78FLYA=
-
-"@babel/parser@^7.8.6":
-  version "7.9.4"
-  resolved "https://registry.npm.taobao.org/@babel/parser/download/@babel/parser-7.9.4.tgz#68a35e6b0319bbc014465be43828300113f2f2e8"
-  integrity sha1-aKNeawMZu8AURlvkOCgwARPy8ug=
-
-"@babel/types@^7.8.6":
-  version "7.9.5"
-  resolved "https://registry.npm.taobao.org/@babel/types/download/@babel/types-7.9.5.tgz#89231f82915a8a566a703b3b20133f73da6b9444"
-  integrity sha1-iSMfgpFailZqcDs7IBM/c9prlEQ=
-  dependencies:
-    "@babel/helper-validator-identifier" "^7.9.5"
-    lodash "^4.17.13"
-    to-fast-properties "^2.0.0"
-
 "@hapi/address@^4.0.1":
   version "4.0.1"
   resolved "https://registry.npm.taobao.org/@hapi/address/download/@hapi/address-4.0.1.tgz#267301ddf7bc453718377a6fb3832a2f04a721dd"
@@ -95,54 +76,6 @@
   integrity sha1-4OQs536Je9aurW9upirrE1uKOJU=
   dependencies:
     "@types/node" "*"
-
-"@vue/compiler-core@3.0.0-alpha.11":
-  version "3.0.0-alpha.11"
-  resolved "https://registry.npm.taobao.org/@vue/compiler-core/download/@vue/compiler-core-3.0.0-alpha.11.tgz#6b208950c70b9c1bf4e9d3479d7b72a1c98a3d4d"
-  integrity sha1-ayCJUMcLnBv06dNHnXtyocmKPU0=
-  dependencies:
-    "@babel/parser" "^7.8.6"
-    "@babel/types" "^7.8.6"
-    "@vue/shared" "3.0.0-alpha.11"
-    estree-walker "^0.8.1"
-    source-map "^0.6.1"
-
-"@vue/compiler-dom@3.0.0-alpha.11":
-  version "3.0.0-alpha.11"
-  resolved "https://registry.npm.taobao.org/@vue/compiler-dom/download/@vue/compiler-dom-3.0.0-alpha.11.tgz#cc19b0cb56890e704606eb574b1b2d963e4fcc7b"
-  integrity sha1-zBmwy1aJDnBGButXSxstlj5PzHs=
-  dependencies:
-    "@vue/compiler-core" "3.0.0-alpha.11"
-    "@vue/shared" "3.0.0-alpha.11"
-
-"@vue/reactivity@3.0.0-alpha.11":
-  version "3.0.0-alpha.11"
-  resolved "https://registry.npm.taobao.org/@vue/reactivity/download/@vue/reactivity-3.0.0-alpha.11.tgz#4837aa6b8c6d63f333bcca9be82f461f169f7bf1"
-  integrity sha1-SDeqa4xtY/MzvMqb6C9GHxafe/E=
-  dependencies:
-    "@vue/shared" "3.0.0-alpha.11"
-
-"@vue/runtime-core@3.0.0-alpha.11":
-  version "3.0.0-alpha.11"
-  resolved "https://registry.npm.taobao.org/@vue/runtime-core/download/@vue/runtime-core-3.0.0-alpha.11.tgz#00089131200dcc974ed9db724b0ecdbdee0ff422"
-  integrity sha1-AAiRMSANzJdO2dtySw7Nve4P9CI=
-  dependencies:
-    "@vue/reactivity" "3.0.0-alpha.11"
-    "@vue/shared" "3.0.0-alpha.11"
-
-"@vue/runtime-dom@3.0.0-alpha.11":
-  version "3.0.0-alpha.11"
-  resolved "https://registry.npm.taobao.org/@vue/runtime-dom/download/@vue/runtime-dom-3.0.0-alpha.11.tgz#477468e7f430f4b4818f7d315b263404fb5bbc6c"
-  integrity sha1-R3Ro5/Qw9LSBj30xWyY0BPtbvGw=
-  dependencies:
-    "@vue/runtime-core" "3.0.0-alpha.11"
-    "@vue/shared" "3.0.0-alpha.11"
-    csstype "^2.6.8"
-
-"@vue/shared@3.0.0-alpha.11":
-  version "3.0.0-alpha.11"
-  resolved "https://registry.npm.taobao.org/@vue/shared/download/@vue/shared-3.0.0-alpha.11.tgz#aa2d5cc711c76c9da1da72217e917ec9c3a812d1"
-  integrity sha1-qi1cxxHHbJ2h2nIhfpF+ycOoEtE=
 
 abbrev@1:
   version "1.1.1"
@@ -255,11 +188,6 @@ config-chain@^1.1.12:
     ini "^1.3.4"
     proto-list "~1.2.1"
 
-csstype@^2.6.8:
-  version "2.6.10"
-  resolved "https://registry.npm.taobao.org/csstype/download/csstype-2.6.10.tgz?cache=0&sync_timestamp=1586935655811&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcsstype%2Fdownload%2Fcsstype-2.6.10.tgz#e63af50e66d7c266edb6b32909cfd0aabe03928b"
-  integrity sha1-5jr1DmbXwmbttrMpCc/Qqr4Dkos=
-
 editorconfig@^0.15.3:
   version "0.15.3"
   resolved "https://registry.npm.taobao.org/editorconfig/download/editorconfig-0.15.3.tgz#bef84c4e75fb8dcb0ce5cee8efd51c15999befc5"
@@ -279,11 +207,6 @@ escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npm.taobao.org/escape-string-regexp/download/escape-string-regexp-1.0.5.tgz?cache=0&sync_timestamp=1586276831259&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fescape-string-regexp%2Fdownload%2Fescape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
-
-estree-walker@^0.8.1:
-  version "0.8.1"
-  resolved "https://registry.npm.taobao.org/estree-walker/download/estree-walker-0.8.1.tgz#6230ce2ec9a5cb03888afcaf295f97d90aa52b79"
-  integrity sha1-YjDOLsmlywOIivyvKV+X2QqlK3k=
 
 external-editor@^3.0.3:
   version "3.1.0"
@@ -412,7 +335,7 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-lodash@^4.17.13, lodash@^4.17.15:
+lodash@^4.17.15:
   version "4.17.15"
   resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha1-tEf2ZwoEVbv+7dETku/zMOoJdUg=
@@ -544,11 +467,6 @@ signal-exit@^3.0.2:
   resolved "https://registry.npm.taobao.org/signal-exit/download/signal-exit-3.0.3.tgz?cache=0&sync_timestamp=1585253750175&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsignal-exit%2Fdownload%2Fsignal-exit-3.0.3.tgz#a1410c2edd8f077b08b4e253c8eacfcaf057461c"
   integrity sha1-oUEMLt2PB3sItOJTyOrPyvBXRhw=
 
-source-map@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.npm.taobao.org/source-map/download/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
-  integrity sha1-dHIq8y6WFOnCh6jQu95IteLxomM=
-
 string-width@^4.1.0:
   version "4.2.0"
   resolved "https://registry.npm.taobao.org/string-width/download/string-width-4.2.0.tgz#952182c46cc7b2c313d1596e623992bd163b72b5"
@@ -584,11 +502,6 @@ tmp@^0.0.33:
   dependencies:
     os-tmpdir "~1.0.2"
 
-to-fast-properties@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npm.taobao.org/to-fast-properties/download/to-fast-properties-2.0.0.tgz#dc5e698cbd079265bc73e0377681a4e4e83f616e"
-  integrity sha1-3F5pjL0HkmW8c+A3doGk5Og/YW4=
-
 tslib@^1.9.0:
   version "1.11.1"
   resolved "https://registry.npm.taobao.org/tslib/download/tslib-1.11.1.tgz?cache=0&sync_timestamp=1582832152814&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftslib%2Fdownload%2Ftslib-1.11.1.tgz#eb15d128827fbee2841549e171f45ed338ac7e35"
@@ -603,15 +516,6 @@ universalify@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/universalify/download/universalify-1.0.0.tgz?cache=0&sync_timestamp=1583531068954&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Funiversalify%2Fdownload%2Funiversalify-1.0.0.tgz#b61a1da173e8435b2fe3c67d29b9adf8594bd16d"
   integrity sha1-thodoXPoQ1sv48Z9Kbmt+FlL0W0=
-
-vue@3.0.0-alpha.11:
-  version "3.0.0-alpha.11"
-  resolved "https://registry.npm.taobao.org/vue/download/vue-3.0.0-alpha.11.tgz#bde2f5f23c5217815d4b01f13dbcbff58bc170c0"
-  integrity sha1-veL18jxSF4FdSwHxPby/9YvBcMA=
-  dependencies:
-    "@vue/compiler-dom" "3.0.0-alpha.11"
-    "@vue/runtime-dom" "3.0.0-alpha.11"
-    "@vue/shared" "3.0.0-alpha.11"
 
 wrappy@1:
   version "1.0.2"

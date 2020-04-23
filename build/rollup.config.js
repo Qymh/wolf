@@ -11,6 +11,10 @@ const target = process.env.TARGET;
 const resolve = (str) =>
   path.resolve(process.cwd(), 'packages/@wolf', target, str);
 
+const pkg = require(`${resolve('package.json')}`);
+
+const dependencies = Object.keys(pkg.dependencies);
+
 const configs = {
   invoke: {
     input: resolve('src/index.ts'),
@@ -51,24 +55,10 @@ const rollupConfig = {
       __DEV__: process.env.NODE_ENV !== 'production',
     }),
   ],
-  external: [...bt, '@wolf/shared'],
+  external: [...bt, ...dependencies],
 };
 
 let watched = false;
-
-if (target === 'shared') {
-  rollupConfig.external.push(
-    'chalk',
-    'fs-extra',
-    'js-yaml',
-    'js-beautify',
-    'chokidar',
-    'commander',
-    'minimist',
-    '@hapi/joi',
-    'inquirer'
-  );
-}
 
 if (target === 'invoke') {
   if (!watched) {

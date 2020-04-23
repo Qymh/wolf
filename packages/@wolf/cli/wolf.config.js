@@ -5,5 +5,11 @@ module.exports = {
     generate: {
       dir: path.resolve(__dirname, 'demo'),
     },
+    serve: {
+      chainWebpack(config) {
+        config.entry('main').add(path.resolve(__dirname, 'demo/main.ts'));
+        return config;
+      },
+    },
   },
 };

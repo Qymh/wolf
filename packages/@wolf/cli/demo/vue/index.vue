@@ -2,9 +2,9 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'test',
-  setup() {
-    return () => <div>test</div>;
+  name: 'vue',
+  setup(props) {
+    return () => <div>vue</div>;
   },
 });
 </script>

@@ -5,6 +5,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var shared = require('@wolf/shared');
 var assert = _interopDefault(require('assert'));
 var path = _interopDefault(require('path'));
+var Config = _interopDefault(require('webpack-chain'));
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -249,6 +250,129 @@ var indentifier = {
     },
 };
 
+var getDefaultChainWebpack = function (config) {
+    config.entry('main').add(path.resolve(process.cwd(), 'src/main.js'));
+    config.output
+        .path(path.resolve(process.cwd(), 'dist'))
+        .filename('[name.js]')
+        .publicPath('/');
+    config.resolve.alias.set('@', path.resolve(process.cwd(), 'dist'));
+    config.resolve.extensions
+        .add('js')
+        .add('jsx')
+        .add('ts')
+        .add('tsx')
+        .add('vue');
+    config.module
+        .rule('babel')
+        .test(/\.[j|t]sx?$/)
+        .use('babe')
+        .loader('babel-loader')
+        .options({
+        exclude: /node_modules/,
+    });
+    config.module
+        .rule('vue')
+        .test(/\.vue$/)
+        .use('vue')
+        .loader('vue-loader');
+    config.module
+        .rule('css')
+        .test(/\.css$/)
+        .use('css')
+        .loader('vue-style-loader')
+        .loader('css-loader');
+    config.module
+        .rule('scss')
+        .test(/\.s[a|c]ss$/)
+        .use('scss')
+        .loader('sass-loader')
+        .loader('vue-style-loader')
+        .loader('css-loader');
+    config.module
+        .rule('images')
+        .test(/\.(png|jpe?g|gif|webp)$/i)
+        .use('images')
+        .loader('url-loader')
+        .options({
+        limit: 4096,
+        fallback: {
+            loader: 'file-loader',
+            options: {
+                name: 'images/[name].[hash:8].[ext]',
+            },
+        },
+    });
+    config.module
+        .rule('media')
+        .test(/\.(png|jpe?g|gif|webp)$/i)
+        .use('media')
+        .loader('url-loader')
+        .options({
+        limit: 4096,
+        fallback: {
+            loader: 'file-loader',
+            options: {
+                name: 'media/[name].[hash:8].[ext]',
+            },
+        },
+    });
+    config.module
+        .rule('fonts')
+        .test(/\.(woff2?|eot|ttf|otf)$/i)
+        .use('fonts')
+        .loader('url-loader')
+        .options({
+        limit: 4096,
+        fallback: {
+            loader: 'file-loader',
+            options: {
+                name: 'fonts/[name].[hash:8].[ext]',
+            },
+        },
+    });
+    config.plugin('vue').use(require('vue-loader').VueLoaderPlugin);
+    config.plugin('define').use(require('webpack').DefinePlugin, [
+        {
+            process: {
+                env: {
+                    NODE_ENV: JSON.stringify('development'),
+                },
+            },
+        },
+    ]);
+    config.plugin('html').use(require('html-webpack-plugin'), [
+        {
+            template: path.resolve(process.cwd(), 'public/index.html'),
+        },
+    ]);
+    config.plugin('css').use(require('mini-css-extract-plugin'), [
+        {
+            filename: '[name].css',
+        },
+    ]);
+};
+function callChainConfig(config) {
+    var chainConfig = new Config();
+    getDefaultChainWebpack(chainConfig);
+    config.cli.serve.chainWebpack(chainConfig);
+    normalizeConfig(chainConfig);
+}
+function normalizeConfig(chainConfig) {
+    var mainEntry = chainConfig.entry('main').values();
+    var last = mainEntry[mainEntry.length - 1];
+    chainConfig.entry('main').clear().add(last);
+}
+var indentifier$1 = {
+    command: 'serve [entry]',
+    description: 'start a development server to run the app',
+    options: [],
+    action: function (entry, cmd, args) {
+        var config = shared.getConfig();
+        callChainConfig(config);
+    },
+};
+
 function cleanArgs(cmd) {
     var args = {};
     cmd.options.forEach(function (o) {
@@ -283,6 +407,6 @@ function generateCommander() {
         shared.program.parse(process.argv);
     };
 }
-var Commanders = generateCommander(indentifier);
+var Commanders = generateCommander(indentifier, indentifier$1);
 
 Commanders();
