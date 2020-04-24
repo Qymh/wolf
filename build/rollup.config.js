@@ -37,6 +37,13 @@ const configs = {
       format: 'cjs',
     },
   },
+  'babel-preset-app': {
+    input: resolve('src/index.ts'),
+    output: {
+      file: resolve('dist/babel-preset-app.dev.js'),
+      format: 'cjs',
+    },
+  },
 };
 
 const config = configs[target];

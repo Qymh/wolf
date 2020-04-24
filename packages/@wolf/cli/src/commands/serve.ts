@@ -4,25 +4,31 @@ import { getConfig, baseConfig } from '@wolf/shared';
 // eslint-disable-next-line no-unused-vars
 import Config from 'webpack-chain';
 import path from 'path';
+import webpack from 'webpack';
+import WebpackDevServer from 'webpack-dev-server';
 
 const getDefaultChainWebpack = (config: Config) => {
+  // mode
+  config.mode('development');
+
   // entry
   config.entry('main').add(path.resolve(process.cwd(), 'src/main.js'));
 
   // output
   config.output
     .path(path.resolve(process.cwd(), 'dist'))
-    .filename('[name.js]')
+    .filename('[name].js')
     .publicPath('/');
 
   // resolve
-  config.resolve.alias.set('@', path.resolve(process.cwd(), 'dist'));
+  config.resolve.alias.set('@', path.resolve(process.cwd(), 'src'));
   config.resolve.extensions
-    .add('js')
-    .add('jsx')
-    .add('ts')
-    .add('tsx')
-    .add('vue');
+    .add('.js')
+    .add('.jsx')
+    .add('.ts')
+    .add('.tsx')
+    .add('.vue');
+  config.resolve.modules.add(path.resolve(process.cwd(), 'node_modules'));
 
   // js ts
   config.module
@@ -32,6 +38,7 @@ const getDefaultChainWebpack = (config: Config) => {
     .loader('babel-loader')
     .options({
       exclude: /node_modules/,
+      ...require('@wolf/babel-preset-app'),
     });
 
   // vue
@@ -140,6 +147,18 @@ function callChainConfig(config: typeof baseConfig) {
   getDefaultChainWebpack(chainConfig);
   config.cli.serve.chainWebpack(chainConfig);
   normalizeConfig(chainConfig);
+  genDevClients(chainConfig);
+  return chainConfig.toConfig();
+}
+
+function genDevClients(chainConfig: Config) {
+  chainConfig
+    .entry('main')
+    .prepend(require.resolve('webpack/hot/dev-server'))
+    .prepend(
+      require.resolve(`webpack-dev-server/client`) +
+        '?http://172.20.49.66:8080/sockjs-node'
+    );
 }
 
 function normalizeConfig(chainConfig: Config) {
@@ -154,6 +173,13 @@ export const indentifier: Indentifier = {
   options: [],
   action(entry, cmd, args) {
     const config = getConfig();
-    callChainConfig(config);
+    const webpackConfig = callChainConfig(config);
+    const compilter = webpack(webpackConfig);
+    const serve = new WebpackDevServer(compilter, {
+      hot: true,
+    });
+    serve.listen(8080, '0.0.0.0', (err) => {
+      console.log(err);
+    });
   },
 };

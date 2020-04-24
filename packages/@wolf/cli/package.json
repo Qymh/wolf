@@ -17,6 +17,9 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
+    "@babel/core": "^7.9.0",
+    "@types/webpack-dev-server": "^3.10.1",
+    "@wolf/babel-preset-app": "^0.0.0",
     "@wolf/shared": "^0.0.0",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.5.2",
@@ -27,7 +30,8 @@
     "vue-loader": "16.0.0-alpha.3",
     "vue-style-loader": "^4.1.2",
     "webpack": "^4.43.0",
-    "webpack-chain": "^6.4.0"
+    "webpack-chain": "^6.4.0",
+    "webpack-dev-server": "^3.10.3"
   },
   "devDependencies": {
     "vue": "3.0.0-alpha.11"
