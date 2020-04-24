@@ -1,3 +1,5 @@
+import readline from 'readline';
+
 export type Dictionary<T = any> = {
   [x: string]: T;
 };
@@ -47,4 +49,14 @@ export function merge(a: any, b: any) {
     }
   }
   return cloneA;
+}
+
+export function clearConsole() {
+  if (process.stdout.isTTY) {
+    const blank = '\n'.repeat(process.stdout.rows);
+    // eslint-disable-next-line no-console
+    console.log(blank);
+    readline.cursorTo(process.stdout, 0, 0);
+    readline.clearScreenDown(process.stdout);
+  }
 }

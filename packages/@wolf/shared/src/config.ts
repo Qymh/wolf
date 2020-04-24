@@ -72,6 +72,18 @@ ${
       chainWebpack(config: any) {
         return config;
       },
+      devServer: {
+        host: '0.0.0.0',
+        port: 8080,
+        clientLogLevel: 'warning',
+        hot: true,
+        inline: true,
+        historyApiFallback: true,
+        overlay: { warnings: false, errors: true },
+        watchOptions: {
+          ignored: /node_modules/,
+        },
+      },
     },
   },
 };

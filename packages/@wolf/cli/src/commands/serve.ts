@@ -1,15 +1,21 @@
 // eslint-disable-next-line no-unused-vars
 import { Indentifier } from './index';
-import { getConfig, baseConfig } from '@wolf/shared';
+import { getConfig, baseConfig, chalk, clearConsole } from '@wolf/shared';
 // eslint-disable-next-line no-unused-vars
 import Config from 'webpack-chain';
 import path from 'path';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
+import defaultGateway from 'default-gateway';
+import address from 'address';
+import portfinder from 'portfinder';
 
 const getDefaultChainWebpack = (config: Config) => {
   // mode
   config.mode('development');
+
+  // devtool
+  config.devtool('cheap-module-eval-source-map');
 
   // entry
   config.entry('main').add(path.resolve(process.cwd(), 'src/main.js'));
@@ -34,7 +40,7 @@ const getDefaultChainWebpack = (config: Config) => {
   config.module
     .rule('babel')
     .test(/\.[j|t]sx?$/)
-    .use('babe')
+    .use('babel')
     .loader('babel-loader')
     .options({
       exclude: /node_modules/,
@@ -140,24 +146,59 @@ const getDefaultChainWebpack = (config: Config) => {
       filename: '[name].css',
     },
   ]);
+
+  // progress
+  config.plugin('progress').use(
+    require('progress-bar-webpack-plugin')({
+      format:
+        '  build [:bar] ' +
+        chalk.green.bold(':percent') +
+        ' (:elapsed seconds)',
+      clear: false,
+      summary: false,
+    })
+  );
+
+  // stats
+  config.stats({
+    modules: false,
+    children: false,
+    chunks: false,
+    chunkModules: false,
+  });
 };
 
-function callChainConfig(config: typeof baseConfig) {
+async function getAddress(config: typeof baseConfig) {
+  let { host } = config.cli.serve.devServer;
+  if (host.trim() === '0.0.0.0') {
+    const res = defaultGateway.v4.sync();
+    host = address.ip(res && res.interface) || '0.0.0.0';
+  }
+  const port = await portfinder.getPortPromise({
+    port: config.cli.serve.devServer.port,
+  });
+  return {
+    host,
+    port,
+    address: `http://${host}:${port}`,
+  };
+}
+
+function callChainConfig(config: typeof baseConfig, address: string) {
   const chainConfig = new Config();
   getDefaultChainWebpack(chainConfig);
   config.cli.serve.chainWebpack(chainConfig);
   normalizeConfig(chainConfig);
-  genDevClients(chainConfig);
+  genDevClients(chainConfig, address);
   return chainConfig.toConfig();
 }
 
-function genDevClients(chainConfig: Config) {
+function genDevClients(chainConfig: Config, address: string) {
   chainConfig
     .entry('main')
     .prepend(require.resolve('webpack/hot/dev-server'))
     .prepend(
-      require.resolve(`webpack-dev-server/client`) +
-        '?http://172.20.49.66:8080/sockjs-node'
+      require.resolve(`webpack-dev-server/client`) + `?${address}/sockjs-node`
     );
 }
 
@@ -171,15 +212,36 @@ export const indentifier: Indentifier = {
   command: 'serve [entry]',
   description: 'start a development server to run the app',
   options: [],
-  action(entry, cmd, args) {
+  async action(entry, cmd, args) {
     const config = getConfig();
-    const webpackConfig = callChainConfig(config);
+    const { host, port, address } = await getAddress(config);
+    const webpackConfig = callChainConfig(config, address);
     const compilter = webpack(webpackConfig);
     const serve = new WebpackDevServer(compilter, {
-      hot: true,
+      ...(config.cli.serve.devServer as WebpackDevServer.Configuration),
+      host,
+      noInfo: true,
     });
-    serve.listen(8080, '0.0.0.0', (err) => {
-      console.log(err);
+    serve.listen(port, '0.0.0.0', (err) => {
+      if (err) {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      }
+    });
+
+    compilter.hooks.done.tap('done', (stats) => {
+      if (stats.hasErrors()) {
+        return;
+      }
+      clearConsole();
+      // eslint-disable-next-line no-console
+      console.log(`
+${chalk.green('Build Success')}
+
+Application is running at ${chalk.blue(`http://localhost:${port}`)}
+Application is running at ${chalk.blue(`http://${host}:${port}`)}
+
+        `);
     });
   },
 };
