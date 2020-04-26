@@ -86,6 +86,10 @@ ${
       },
     },
   },
+  invoke: {
+    dir: '',
+    type: 'typescript',
+  },
 };
 
 export function getConfig(): typeof baseConfig {

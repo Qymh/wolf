@@ -1206,6 +1206,30 @@
     "@vue/compiler-dom" "3.0.0-alpha.13"
     "@vue/shared" "3.0.0-alpha.13"
 
+"@vue/reactivity@3.0.0-alpha.13":
+  version "3.0.0-alpha.13"
+  resolved "https://registry.npm.taobao.org/@vue/reactivity/download/@vue/reactivity-3.0.0-alpha.13.tgz#032fbfd1b9c50153e2f37fc99ae63b460377387a"
+  integrity sha1-Ay+/0bnFAVPi83/JmuY7RgN3OHo=
+  dependencies:
+    "@vue/shared" "3.0.0-alpha.13"
+
+"@vue/runtime-core@3.0.0-alpha.13":
+  version "3.0.0-alpha.13"
+  resolved "https://registry.npm.taobao.org/@vue/runtime-core/download/@vue/runtime-core-3.0.0-alpha.13.tgz#2430fc835399924c206d113e6f6acaa921707a3f"
+  integrity sha1-JDD8g1OZkkwgbRE+b2rKqSFwej8=
+  dependencies:
+    "@vue/reactivity" "3.0.0-alpha.13"
+    "@vue/shared" "3.0.0-alpha.13"
+
+"@vue/runtime-dom@3.0.0-alpha.13":
+  version "3.0.0-alpha.13"
+  resolved "https://registry.npm.taobao.org/@vue/runtime-dom/download/@vue/runtime-dom-3.0.0-alpha.13.tgz#de33f7ae9035877ede1bee27e5c28108f1eea86a"
+  integrity sha1-3jP3rpA1h37eG+4n5cKBCPHuqGo=
+  dependencies:
+    "@vue/runtime-core" "3.0.0-alpha.13"
+    "@vue/shared" "3.0.0-alpha.13"
+    csstype "^2.6.8"
+
 "@vue/shared@3.0.0-alpha.13":
   version "3.0.0-alpha.13"
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.0.0-alpha.13.tgz#7d9bcf763c77bd9e10bbb6a27577af7f0ad853c4"
@@ -2709,10 +2733,10 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
-css-loader@^3.5.2:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-3.5.2.tgz#6483ae56f48a7f901fbe07dde2fc96b01eafab3c"
-  integrity sha512-hDL0DPopg6zQQSRlZm0hyeaqIRnL0wbWjay9BZxoiJBpbfOW4WHfbaYQhwnDmEa0kZUc1CJ3IFo15ot1yULMIQ==
+css-loader@^3.5.3:
+  version "3.5.3"
+  resolved "https://registry.npm.taobao.org/css-loader/download/css-loader-3.5.3.tgz?cache=0&sync_timestamp=1587729810716&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcss-loader%2Fdownload%2Fcss-loader-3.5.3.tgz#95ac16468e1adcd95c844729e0bb167639eb0bcf"
+  integrity sha1-lawWRo4a3NlchEcp4LsWdjnrC88=
   dependencies:
     camelcase "^5.3.1"
     cssesc "^3.0.0"
@@ -2725,7 +2749,7 @@ css-loader@^3.5.2:
     postcss-modules-scope "^2.2.0"
     postcss-modules-values "^3.0.0"
     postcss-value-parser "^4.0.3"
-    schema-utils "^2.6.5"
+    schema-utils "^2.6.6"
     semver "^6.3.0"
 
 css-select@^1.1.0:
@@ -2747,6 +2771,11 @@ cssesc@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/cssesc/-/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"
   integrity sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==
+
+csstype@^2.6.8:
+  version "2.6.10"
+  resolved "https://registry.npm.taobao.org/csstype/download/csstype-2.6.10.tgz?cache=0&sync_timestamp=1586935655811&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcsstype%2Fdownload%2Fcsstype-2.6.10.tgz#e63af50e66d7c266edb6b32909cfd0aabe03928b"
+  integrity sha1-5jr1DmbXwmbttrMpCc/Qqr4Dkos=
 
 currently-unhandled@^0.4.1:
   version "0.4.1"
@@ -7455,8 +7484,8 @@ sass-graph@^2.2.4:
 
 sass-loader@^8.0.2:
   version "8.0.2"
-  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-8.0.2.tgz#debecd8c3ce243c76454f2e8290482150380090d"
-  integrity sha512-7o4dbSK8/Ol2KflEmSco4jTjQoV988bM82P9CZdmo9hR3RLnvNc0ufMNdMrB0caq38JQ/FgF4/7RcbcfKzxoFQ==
+  resolved "https://registry.npm.taobao.org/sass-loader/download/sass-loader-8.0.2.tgz#debecd8c3ce243c76454f2e8290482150380090d"
+  integrity sha1-3r7NjDziQ8dkVPLoKQSCFQOACQ0=
   dependencies:
     clone-deep "^4.0.1"
     loader-utils "^1.2.3"
@@ -7473,10 +7502,18 @@ schema-utils@^1.0.0:
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
 
-schema-utils@^2.6.1, schema-utils@^2.6.5:
+schema-utils@^2.6.1:
   version "2.6.5"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-2.6.5.tgz#c758f0a7e624263073d396e29cd40aa101152d8a"
   integrity sha512-5KXuwKziQrTVHh8j/Uxz+QUbxkaLW9X/86NBlx/gnKgtsZA2GIVMUn17qWhRFwF8jdYb3Dig5hRO/W5mZqy6SQ==
+  dependencies:
+    ajv "^6.12.0"
+    ajv-keywords "^3.4.1"
+
+schema-utils@^2.6.6:
+  version "2.6.6"
+  resolved "https://registry.npm.taobao.org/schema-utils/download/schema-utils-2.6.6.tgz?cache=0&sync_timestamp=1587138453873&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fschema-utils%2Fdownload%2Fschema-utils-2.6.6.tgz#299fe6bd4a3365dc23d99fd446caff8f1d6c330c"
+  integrity sha1-KZ/mvUozZdwj2Z/URsr/jx1sMww=
   dependencies:
     ajv "^6.12.0"
     ajv-keywords "^3.4.1"
@@ -8335,10 +8372,10 @@ trim-off-newlines@^1.0.0:
   dependencies:
     glob "^7.1.2"
 
-ts-loader@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-7.0.0.tgz#7c74dfa8956e3e33b91d98d4ed7b6f7575c35c25"
-  integrity sha512-qq9iPK235Xf/uPS1I72CIwB8qpbW0rys3entnXO+rIo2km50lMmeHKCNn1m047W6Sk4kceF6n5NWEnq/V8xdYQ==
+ts-loader@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.npm.taobao.org/ts-loader/download/ts-loader-7.0.1.tgz?cache=0&sync_timestamp=1587360010491&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fts-loader%2Fdownload%2Fts-loader-7.0.1.tgz#ac9ae9eb8f5ebd0aa7b78b44db20691b6e31251b"
+  integrity sha1-rJrp649evQqnt4tE2yBpG24xJRs=
   dependencies:
     chalk "^2.3.0"
     enhanced-resolve "^4.0.0"
@@ -8653,13 +8690,27 @@ vue-loader@16.0.0-alpha.3:
     merge-source-map "^1.1.0"
     source-map "^0.6.1"
 
+vue-router@4.0.0-alpha.5:
+  version "4.0.0-alpha.5"
+  resolved "https://registry.npm.taobao.org/vue-router/download/vue-router-4.0.0-alpha.5.tgz#7b7d00ca090a03aec0ba4e1b582bfce12aa3bdaf"
+  integrity sha1-e30AygkKA67Auk4bWCv84Sqjva8=
+
 vue-style-loader@^4.1.2:
   version "4.1.2"
-  resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-4.1.2.tgz#dedf349806f25ceb4e64f3ad7c0a44fba735fcf8"
-  integrity sha512-0ip8ge6Gzz/Bk0iHovU9XAUQaFt/G2B61bnWa2tCcqqdgfHs1lF9xXorFbE55Gmy92okFT+8bfmySuUOu13vxQ==
+  resolved "https://registry.npm.taobao.org/vue-style-loader/download/vue-style-loader-4.1.2.tgz#dedf349806f25ceb4e64f3ad7c0a44fba735fcf8"
+  integrity sha1-3t80mAbyXOtOZPOtfApE+6c1/Pg=
   dependencies:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
+
+vue@3.0.0-alpha.13:
+  version "3.0.0-alpha.13"
+  resolved "https://registry.npm.taobao.org/vue/download/vue-3.0.0-alpha.13.tgz#a0428ec5494841f2f3564b47a17c550645b8f442"
+  integrity sha1-oEKOxUlIQfLzVktHoXxVBkW49EI=
+  dependencies:
+    "@vue/compiler-dom" "3.0.0-alpha.13"
+    "@vue/runtime-dom" "3.0.0-alpha.13"
+    "@vue/shared" "3.0.0-alpha.13"
 
 watchpack@^1.6.0:
   version "1.6.1"

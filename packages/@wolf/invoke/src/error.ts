@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import { chalk } from '@wolf/shared';
 
 export function success(path?: string) {
   // eslint-disable-next-line no-console

@@ -12,8 +12,11 @@ const resolve = (str) =>
   path.resolve(process.cwd(), 'packages/@wolf', target, str);
 
 const pkg = require(`${resolve('package.json')}`);
+const outerPkg = require(path.resolve(process.cwd(), 'package.json'));
 
-const dependencies = Object.keys(pkg.dependencies);
+const dependencies = Object.keys(pkg.dependencies || {});
+const devDependencies = Object.keys(pkg.devDependencies || {});
+const outerDevDependencies = Object.keys(outerPkg.devDependencies || {});
 
 const configs = {
   invoke: {
@@ -62,7 +65,14 @@ const rollupConfig = {
       __DEV__: process.env.NODE_ENV !== 'production',
     }),
   ],
-  external: [...bt, ...dependencies],
+  external: Array.from(
+    new Set([
+      ...bt,
+      ...dependencies,
+      ...devDependencies,
+      ...outerDevDependencies,
+    ])
+  ),
 };
 
 let watched = false;

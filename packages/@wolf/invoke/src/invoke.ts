@@ -5,7 +5,7 @@ import { NavigationGuard, RouterOptions } from 'vue-router';
 import { generate } from './generate';
 import { ErrorCodes, error } from './error';
 import { replacePostfix } from './utils';
-import { camelize } from 'packages/@wolf/shared/src';
+import { camelize } from '@wolf/shared';
 
 export type Options = {
   dir: string;

@@ -1,4 +1,6 @@
 import { createApp, h } from 'vue';
+import { View } from 'vue-router';
+import { router } from './.invoke/router';
 
 const app = createApp({
   setup() {
@@ -6,4 +8,5 @@ const app = createApp({
   },
 });
 
+// app.use(router);
 app.mount('#app');

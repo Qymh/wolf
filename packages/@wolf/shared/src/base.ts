@@ -46,6 +46,8 @@ export function merge(a: any, b: any) {
       cloneA[key] = merge(aitem, bitem);
     } else if (aitem) {
       cloneA[key] = bitem || aitem;
+    } else {
+      cloneA[key] = bitem;
     }
   }
   return cloneA;

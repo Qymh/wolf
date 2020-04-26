@@ -1,4 +1,4 @@
-import fs from 'fs-extra';
+import { fs } from '@wolf/shared';
 // eslint-disable-next-line no-unused-vars
 import {
   isDir,

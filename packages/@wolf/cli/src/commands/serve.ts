@@ -190,6 +190,7 @@ function callChainConfig(config: typeof baseConfig, address: string) {
   config.cli.serve.chainWebpack(chainConfig);
   normalizeConfig(chainConfig);
   genDevClients(chainConfig, address);
+  genInvokePlugin(chainConfig, config);
   return chainConfig.toConfig();
 }
 
@@ -200,6 +201,10 @@ function genDevClients(chainConfig: Config, address: string) {
     .prepend(
       require.resolve(`webpack-dev-server/client`) + `?${address}/sockjs-node`
     );
+}
+
+function genInvokePlugin(chainConfig: Config, config: typeof baseConfig) {
+  chainConfig.plugin('invoke').use(require('@wolf/invoke'), [config.invoke]);
 }
 
 function normalizeConfig(chainConfig: Config) {

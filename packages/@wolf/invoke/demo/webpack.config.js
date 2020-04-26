@@ -37,6 +37,7 @@ const base = {
     new Invoke({
       dir: resolve('views'),
       alias: resolve('views'),
+      type: 'typescript',
     }),
   ],
   resolve: {

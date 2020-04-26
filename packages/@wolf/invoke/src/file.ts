@@ -1,11 +1,12 @@
-import fs from 'fs-extra';
-import cr from 'chokidar';
+import { fs, chokidar } from '@wolf/shared';
 import { isValidFile } from './ast';
 import { isYAML, clearConsole } from './utils';
 // eslint-disable-next-line no-unused-vars
 import { Options } from './invoke';
 
 let hasWatched = false;
+
+export let watcher: chokidar.FSWatcher;
 
 function isInvokePath(path: string) {
   return /\.invoke/.test(path);
@@ -18,7 +19,7 @@ export function watchFiles({ dir, dist }: Options, fn: any) {
   }
   if (!hasWatched) {
     hasWatched = true;
-    const watcher = cr.watch(dir, {
+    const watcher = chokidar.watch(dir, {
       ignoreInitial: true,
       awaitWriteFinish: {
         stabilityThreshold: 2000,
