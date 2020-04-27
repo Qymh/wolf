@@ -1,7 +1,7 @@
 import { Invoke } from './invoke';
 
 // const ins = new Invoke({
-//   dir: path.resolve(process.cwd(), 'packages/invoke/demo/views'),
+//   root: path.resolve(process.cwd(), 'packages/invoke/demo/views'),
 //   beforeEach(to, from, next) {
 //     next();
 //   },

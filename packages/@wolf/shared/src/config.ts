@@ -6,7 +6,7 @@ import { merge } from './base';
 export const baseConfig = {
   cli: {
     generate: {
-      dir: __dirname,
+      root: __dirname,
       type: 'single',
       language: 'ts',
       preprocessor: 'scss',
@@ -87,8 +87,8 @@ ${
     },
   },
   invoke: {
-    dir: '',
-    type: 'typescript',
+    root: '',
+    language: 'typescript',
   },
 };
 

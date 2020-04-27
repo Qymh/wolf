@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   cli: {
     generate: {
-      dir: path.resolve(__dirname, 'demo'),
+      root: path.resolve(__dirname, 'demo'),
     },
     serve: {
       chainWebpack(config) {
@@ -13,6 +13,6 @@ module.exports = {
     },
   },
   invoke: {
-    dir: path.resolve(__dirname, 'demo'),
+    root: path.resolve(__dirname, 'demo'),
   },
 };

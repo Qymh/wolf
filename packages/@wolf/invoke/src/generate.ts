@@ -4,6 +4,7 @@ import { Options } from './invoke';
 import { genAST, Tree, RouteTypes } from './ast';
 import { beautify } from '@wolf/shared';
 import { watchFiles, outputFile } from './file';
+import { success } from './error';
 
 type PushBuffer = (str: string) => void;
 
@@ -118,7 +119,7 @@ function genGlobalGuards(
 
 export function generate(options: Options) {
   const generatedFn = () => {
-    const ast = genAST(options.dir, options);
+    const ast = genAST(options.root, options);
     // console.dir(ast, { depth: null });
     if (ast) {
       const { push, get } = createBuffer(options);
@@ -127,6 +128,7 @@ export function generate(options: Options) {
       push('});');
       genOptionsBuffer(push, options);
       outputFile(options.dist!, get());
+      success(options.dist!);
     }
   };
   watchFiles(options, generatedFn);

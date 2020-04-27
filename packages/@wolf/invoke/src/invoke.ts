@@ -1,17 +1,19 @@
 // eslint-disable-next-line no-unused-vars
 import { Compiler } from 'webpack';
+import path from 'path';
 // eslint-disable-next-line no-unused-vars
 import { NavigationGuard, RouterOptions } from 'vue-router';
 import { generate } from './generate';
 import { ErrorCodes, error } from './error';
-import { replacePostfix } from './utils';
+import { replacePostfix, isDir } from './utils';
 import { camelize } from '@wolf/shared';
 
 export type Options = {
-  dir: string;
+  root: string;
   alias: string;
   dist?: string;
-  type?: 'javascript' | 'typescript';
+  outputDir: string;
+  language?: 'javascript' | 'typescript';
   mode?: 'history' | 'hash';
 
   getRelativePath?: (path: string) => string;
@@ -24,38 +26,49 @@ export type Options = {
 };
 
 export const defaultOptions: Options = {
-  dir: '',
+  root: '',
   alias: '',
   dist: '',
-  type: 'javascript',
+  outputDir: '',
+  language: 'javascript',
   mode: 'history',
   getRelativePath: (path) => path,
 };
 
 function normalizeOptions(options: Options): Options | never {
   options = { ...defaultOptions, ...options };
-  const { dir, type } = options;
-  if (!dir) {
-    error(ErrorCodes.NO_DIR);
+  const { root, language, outputDir } = options;
+  if (!root) {
+    error(ErrorCodes.NO_ROOT);
     process.exit(1);
   }
-  options.alias = dir;
+  try {
+    if (outputDir && !isDir(outputDir)) {
+      process.exit(1);
+    }
+  } catch (e) {
+    error(ErrorCodes.WRONG_OUTPUTDIR);
+  }
+  options.alias = root;
 
-  options.getRelativePath = generateGetRelativePathFn(dir);
-  options.dist = dir + `/.invoke/router.${type === 'javascript' ? 'js' : 'ts'}`;
+  options.getRelativePath = generateGetRelativePathFn(root);
+  options.dist =
+    outputDir ||
+    root + `/.invoke/router.${language === 'javascript' ? 'js' : 'ts'}`;
 
   return options;
 }
 
-function generateGetRelativePathFn(dir: Options['dir']) {
-  return (path: string) => {
+function generateGetRelativePathFn(dir: Options['root']) {
+  return (address: string) => {
     return camelize(
       replacePostfix(
-        path
-          .replace(dir, '')
-          .replace(/\/(_)?([a-zA-Z0-9])/g, (_, d: string, c: string) => {
-            return c ? `/${d || ''}${c.toLowerCase()}` : `${d || ''}${c}`;
-          })
+        '/' +
+          path
+            .relative(dir, address)
+            .replace(/\/(_)?([a-zA-Z0-9])/g, (_, d: string, c: string) => {
+              return c ? `/${d || ''}${c.toLowerCase()}` : `${d || ''}${c}`;
+            })
       )
     );
   };
@@ -65,7 +78,7 @@ export class Invoke {
   public $options: Options;
   constructor(options: Options) {
     options = normalizeOptions(options);
-    process.env.WOLF_INVOKE_DIR = options.dir;
+    process.env.WOLF_INVOKE_DIR = options.root;
     this.$options = options;
   }
 

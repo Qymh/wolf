@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const isDev = process.env.NODE_ENV === 'development';
 const resolve = (str) =>
-  path.resolve(process.cwd(), 'packages/invoke/demo', str);
+  path.resolve(process.cwd(), 'packages/@wolf/invoke/demo', str);
 const Invoke = require('../dist/invoke.dev');
 
 const base = {
@@ -35,14 +35,12 @@ const base = {
       template: resolve('index.html'),
     }),
     new Invoke({
-      dir: resolve('views'),
-      alias: resolve('views'),
-      type: 'typescript',
+      root: path.resolve(process.cwd(), 'src/views'),
     }),
   ],
   resolve: {
     alias: {
-      '@': resolve('views'),
+      '@': path.resolve(process.cwd(), 'src/views'),
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },

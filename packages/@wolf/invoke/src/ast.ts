@@ -304,19 +304,23 @@ export function genAST(
   dir: string,
   options: Options
 ): Tree | never | undefined {
-  if (!isDir(dir)) {
+  try {
+    if (!isDir(dir)) {
+      return;
+    }
+    const defaultPage = getDefaultPage(dir);
+    if (defaultPage) {
+      const rootTree = createTree('index', '/', RouteTypes.SIMPLE_SINGLE);
+      setTreePath(rootTree, dir + '/' + defaultPage);
+      rootTree.DirectoryTree.defaultPage = defaultPage;
+      patch(dir, options, rootTree);
+      return rootTree;
+    } else {
+      error(ErrorCodes.NOT_HAS_HOME, dir);
+      return undefined;
+    }
+  } catch (e) {
     error(ErrorCodes.NOT_A_DIR, `the dir option ${dir}`);
     process.exit(1);
-  }
-  const defaultPage = getDefaultPage(dir);
-  if (defaultPage) {
-    const rootTree = createTree('index', '/', RouteTypes.SIMPLE_SINGLE);
-    setTreePath(rootTree, dir + '/' + defaultPage);
-    rootTree.DirectoryTree.defaultPage = defaultPage;
-    patch(dir, options, rootTree);
-    return rootTree;
-  } else {
-    error(ErrorCodes.NOT_HAS_HOME, dir);
-    return undefined;
   }
 }

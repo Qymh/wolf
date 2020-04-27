@@ -1,6 +1,15 @@
 import { chalk } from '@wolf/shared';
 
+let hasError = false;
+
+export function resetHasError() {
+  hasError = false;
+}
+
 export function success(path?: string) {
+  if (hasError) {
+    return;
+  }
   // eslint-disable-next-line no-console
   console.log(
     chalk.green(
@@ -15,6 +24,7 @@ export function error(
   raw?: any,
   details?: string
 ) {
+  hasError = true;
   // eslint-disable-next-line no-console
   console.log(
     chalk.red(
@@ -45,15 +55,16 @@ export function warn(
 export const enum ErrorCodes {
   // public errors
   NOT_A_DIR,
-  NO_ALIAS,
   NOT_HAS_HOME,
   MULTIPLE_PAGE,
   WRONG_DIR_NAME,
   WRONG_PARSE_YML,
 
   // options errors
-  NO_DIR,
+  NO_ROOT,
+  NO_ALIAS,
   WRONG_YML,
+  WRONG_OUTPUTDIR,
 }
 /* eslint-enable no-unused-vars */
 
@@ -68,7 +79,8 @@ export const errorMessages = {
   [ErrorCodes.WRONG_PARSE_YML]: 'has some grammatical mistakes',
 
   // options errors
-  [ErrorCodes.NO_DIR]: 'the dir option is needed',
+  [ErrorCodes.NO_ROOT]: 'the root option is needed',
   [ErrorCodes.NO_ALIAS]: 'the alias option is needed',
   [ErrorCodes.WRONG_YML]: 'the yml option is not a valid yml name',
+  [ErrorCodes.WRONG_OUTPUTDIR]: 'the outputdir option must be a directory',
 };

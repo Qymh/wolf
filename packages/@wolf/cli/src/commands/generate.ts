@@ -67,8 +67,8 @@ async function outputFiles(
   fileName: string,
   config: typeof baseConfig
 ) {
-  const { dir, language, preprocessor, template } = config.cli.generate;
-  const realDir = path.resolve(dir, name);
+  const { root, language, preprocessor, template } = config.cli.generate;
+  const realDir = path.resolve(root, name);
 
   function writeFiles() {
     fs.mkdirSync(realDir);

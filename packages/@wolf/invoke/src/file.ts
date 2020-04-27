@@ -3,6 +3,7 @@ import { isValidFile } from './ast';
 import { isYAML, clearConsole } from './utils';
 // eslint-disable-next-line no-unused-vars
 import { Options } from './invoke';
+import { resetHasError } from './error';
 
 let hasWatched = false;
 
@@ -12,14 +13,14 @@ function isInvokePath(path: string) {
   return /\.invoke/.test(path);
 }
 
-export function watchFiles({ dir, dist }: Options, fn: any) {
+export function watchFiles({ root, dist }: Options, fn: any) {
   function finish() {
-    clearConsole(dist!);
+    clearConsole();
     fn();
   }
   if (!hasWatched) {
     hasWatched = true;
-    const watcher = chokidar.watch(dir, {
+    const watcher = chokidar.watch(root, {
       ignoreInitial: true,
       awaitWriteFinish: {
         stabilityThreshold: 2000,
@@ -27,6 +28,7 @@ export function watchFiles({ dir, dist }: Options, fn: any) {
       },
     });
     watcher.on('raw', (events, path, details) => {
+      resetHasError();
       if (!isInvokePath(path)) {
         // directory
         if (details.type === 'directory') {
