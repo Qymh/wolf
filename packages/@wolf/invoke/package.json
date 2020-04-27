@@ -18,5 +18,9 @@
     "@types/js-yaml": "^3.12.3",
     "@wolf/shared": "^0.0.0",
     "js-yaml": "^3.13.1"
+  },
+  "devDependencies": {
+    "vue": "3.0.0-alpha.13",
+    "vue-router": "4.0.0-alpha.5"
   }
 }

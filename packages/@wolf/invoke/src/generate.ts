@@ -17,7 +17,6 @@ function createBuffer(options: Options) {
 
   function genDefaultBuffer() {
     push(`
-      import vue from 'vue';
       import { createRouter, ${
         mode === 'history' ? 'createWebHistory' : 'createWebHashHistory'
       } } from 'vue-router';

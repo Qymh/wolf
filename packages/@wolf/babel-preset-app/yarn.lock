@@ -338,7 +338,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.0"
 
-"@babel/plugin-syntax-dynamic-import@^7.8.0":
+"@babel/plugin-syntax-dynamic-import@^7.8.0", "@babel/plugin-syntax-dynamic-import@^7.8.3":
   version "7.8.3"
   resolved "https://registry.npm.taobao.org/@babel/plugin-syntax-dynamic-import/download/@babel/plugin-syntax-dynamic-import-7.8.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fplugin-syntax-dynamic-import%2Fdownload%2F%40babel%2Fplugin-syntax-dynamic-import-7.8.3.tgz#62bf98b2da3cd21d626154fc96ee5b3cb68eacb3"
   integrity sha1-Yr+Ysto80h1iYVT8lu5bPLaOrLM=
@@ -779,6 +779,54 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@vue/compiler-core@3.0.0-alpha.13":
+  version "3.0.0-alpha.13"
+  resolved "https://registry.npm.taobao.org/@vue/compiler-core/download/@vue/compiler-core-3.0.0-alpha.13.tgz#8126c92f562af047c28c4ce7f343d77f0ceea7d7"
+  integrity sha1-gSbJL1Yq8EfCjEzn80PXfwzup9c=
+  dependencies:
+    "@babel/parser" "^7.8.6"
+    "@babel/types" "^7.8.6"
+    "@vue/shared" "3.0.0-alpha.13"
+    estree-walker "^0.8.1"
+    source-map "^0.6.1"
+
+"@vue/compiler-dom@3.0.0-alpha.13":
+  version "3.0.0-alpha.13"
+  resolved "https://registry.npm.taobao.org/@vue/compiler-dom/download/@vue/compiler-dom-3.0.0-alpha.13.tgz#b1930ebbe770dbed543dbe7ac88f2955719051f2"
+  integrity sha1-sZMOu+dw2+1UPb56yI8pVXGQUfI=
+  dependencies:
+    "@vue/compiler-core" "3.0.0-alpha.13"
+    "@vue/shared" "3.0.0-alpha.13"
+
+"@vue/reactivity@3.0.0-alpha.13":
+  version "3.0.0-alpha.13"
+  resolved "https://registry.npm.taobao.org/@vue/reactivity/download/@vue/reactivity-3.0.0-alpha.13.tgz#032fbfd1b9c50153e2f37fc99ae63b460377387a"
+  integrity sha1-Ay+/0bnFAVPi83/JmuY7RgN3OHo=
+  dependencies:
+    "@vue/shared" "3.0.0-alpha.13"
+
+"@vue/runtime-core@3.0.0-alpha.13":
+  version "3.0.0-alpha.13"
+  resolved "https://registry.npm.taobao.org/@vue/runtime-core/download/@vue/runtime-core-3.0.0-alpha.13.tgz#2430fc835399924c206d113e6f6acaa921707a3f"
+  integrity sha1-JDD8g1OZkkwgbRE+b2rKqSFwej8=
+  dependencies:
+    "@vue/reactivity" "3.0.0-alpha.13"
+    "@vue/shared" "3.0.0-alpha.13"
+
+"@vue/runtime-dom@3.0.0-alpha.13":
+  version "3.0.0-alpha.13"
+  resolved "https://registry.npm.taobao.org/@vue/runtime-dom/download/@vue/runtime-dom-3.0.0-alpha.13.tgz#de33f7ae9035877ede1bee27e5c28108f1eea86a"
+  integrity sha1-3jP3rpA1h37eG+4n5cKBCPHuqGo=
+  dependencies:
+    "@vue/runtime-core" "3.0.0-alpha.13"
+    "@vue/shared" "3.0.0-alpha.13"
+    csstype "^2.6.8"
+
+"@vue/shared@3.0.0-alpha.13":
+  version "3.0.0-alpha.13"
+  resolved "https://registry.npm.taobao.org/@vue/shared/download/@vue/shared-3.0.0-alpha.13.tgz#7d9bcf763c77bd9e10bbb6a27577af7f0ad853c4"
+  integrity sha1-fZvPdjx3vZ4Qu7aidXevfwrYU8Q=
+
 ansi-styles@^3.2.1:
   version "3.2.1"
   resolved "https://registry.npm.taobao.org/ansi-styles/download/ansi-styles-3.2.1.tgz#41fbb20243e50b12be0f04b8dedbf07520ce841d"
@@ -861,6 +909,11 @@ core-js-compat@^3.6.2:
     browserslist "^4.8.5"
     semver "7.0.0"
 
+csstype@^2.6.8:
+  version "2.6.10"
+  resolved "https://registry.npm.taobao.org/csstype/download/csstype-2.6.10.tgz?cache=0&sync_timestamp=1586935655811&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcsstype%2Fdownload%2Fcsstype-2.6.10.tgz#e63af50e66d7c266edb6b32909cfd0aabe03928b"
+  integrity sha1-5jr1DmbXwmbttrMpCc/Qqr4Dkos=
+
 debug@^4.1.0:
   version "4.1.1"
   resolved "https://registry.npm.taobao.org/debug/download/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
@@ -884,6 +937,11 @@ escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npm.taobao.org/escape-string-regexp/download/escape-string-regexp-1.0.5.tgz?cache=0&sync_timestamp=1587627212242&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fescape-string-regexp%2Fdownload%2Fescape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
+
+estree-walker@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.npm.taobao.org/estree-walker/download/estree-walker-0.8.1.tgz#6230ce2ec9a5cb03888afcaf295f97d90aa52b79"
+  integrity sha1-YjDOLsmlywOIivyvKV+X2QqlK3k=
 
 esutils@^2.0.2:
   version "2.0.3"
@@ -1130,6 +1188,11 @@ source-map@^0.5.0:
   resolved "https://registry.npm.taobao.org/source-map/download/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
   integrity sha1-igOdLRAh0i0eoUyA2OpGi6LvP8w=
 
+source-map@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.npm.taobao.org/source-map/download/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
+  integrity sha1-dHIq8y6WFOnCh6jQu95IteLxomM=
+
 supports-color@^5.3.0:
   version "5.5.0"
   resolved "https://registry.npm.taobao.org/supports-color/download/supports-color-5.5.0.tgz#e2e69a44ac8772f78a1ec0b35b689df6530efc8f"
@@ -1164,3 +1227,17 @@ unicode-property-aliases-ecmascript@^1.0.4:
   version "1.1.0"
   resolved "https://registry.npm.taobao.org/unicode-property-aliases-ecmascript/download/unicode-property-aliases-ecmascript-1.1.0.tgz?cache=0&sync_timestamp=1583945776843&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Funicode-property-aliases-ecmascript%2Fdownload%2Funicode-property-aliases-ecmascript-1.1.0.tgz#dd57a99f6207bedff4628abefb94c50db941c8f4"
   integrity sha1-3Vepn2IHvt/0Yoq++5TFDblByPQ=
+
+vue-router@4.0.0-alpha.5:
+  version "4.0.0-alpha.5"
+  resolved "https://registry.npm.taobao.org/vue-router/download/vue-router-4.0.0-alpha.5.tgz#7b7d00ca090a03aec0ba4e1b582bfce12aa3bdaf"
+  integrity sha1-e30AygkKA67Auk4bWCv84Sqjva8=
+
+vue@3.0.0-alpha.13:
+  version "3.0.0-alpha.13"
+  resolved "https://registry.npm.taobao.org/vue/download/vue-3.0.0-alpha.13.tgz#a0428ec5494841f2f3564b47a17c550645b8f442"
+  integrity sha1-oEKOxUlIQfLzVktHoXxVBkW49EI=
+  dependencies:
+    "@vue/compiler-dom" "3.0.0-alpha.13"
+    "@vue/runtime-dom" "3.0.0-alpha.13"
+    "@vue/shared" "3.0.0-alpha.13"

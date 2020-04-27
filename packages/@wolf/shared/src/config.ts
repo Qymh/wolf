@@ -46,24 +46,24 @@ export default defineComponent({
         jsx: (name: string, preprocessor: string) =>
           baseConfig.cli.generate.template.tsx(name, preprocessor),
         vue: (name: string, preprocessor: string) =>
-          `<script>
+          `<template>
+  <div>${name}</div>
+</template>
+
+<script>
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: '${name}',
-  setup() {
-    return () => <div>${name}</div>;
-  },
+  setup() {},
 });
 </script>
 ${
   preprocessor &&
   `
-<style lang="${preprocessor}" scoped>
-</style>
-  `
-}
-        `,
+<style lang="${preprocessor}" scoped></style>
+`
+}`,
       },
     },
     serve: {

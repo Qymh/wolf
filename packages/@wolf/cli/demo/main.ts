@@ -1,12 +1,12 @@
 import { createApp, h } from 'vue';
-import { View } from 'vue-router';
 import { router } from './.invoke/router';
+import { View } from 'vue-router';
 
 const app = createApp({
   setup() {
-    return () => h('div', 123);
+    return () => h(View);
   },
 });
 
-// app.use(router);
+app.use(router);
 app.mount('#app');

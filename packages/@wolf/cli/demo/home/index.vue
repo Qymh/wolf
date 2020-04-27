@@ -1,11 +1,13 @@
-<script lang="tsx">
+<template>
+  <div>123</div>
+</template>
+
+<script>
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'home',
-  setup() {
-    return () => <div>123</div>;
-  },
+  setup() {},
 });
 </script>
 

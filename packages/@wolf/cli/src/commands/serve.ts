@@ -27,14 +27,23 @@ const getDefaultChainWebpack = (config: Config) => {
     .publicPath('/');
 
   // resolve
-  config.resolve.alias.set('@', path.resolve(process.cwd(), 'src'));
+  config.resolve.alias.set('@', path.resolve(process.cwd(), 'demo'));
   config.resolve.extensions
     .add('.js')
     .add('.jsx')
     .add('.ts')
     .add('.tsx')
     .add('.vue');
-  config.resolve.modules.add(path.resolve(process.cwd(), 'node_modules'));
+  config.resolve.modules
+    .add(path.resolve(__dirname, '../', 'node_modules'))
+    .add(path.resolve(__dirname, '../../babel-preset-app', 'node_modules'))
+    .add(path.resolve(__dirname, '../../shared', 'node_modules'));
+
+  // resolveloader
+  config.resolveLoader.modules
+    .add(path.resolve(__dirname, '../', 'node_modules'))
+    .add(path.resolve(__dirname, '../../babel-preset-app', 'node_modules'))
+    .add(path.resolve(__dirname, '../../shared', 'node_modules'));
 
   // js ts
   config.module
@@ -43,9 +52,10 @@ const getDefaultChainWebpack = (config: Config) => {
     .use('babel')
     .loader('babel-loader')
     .options({
-      exclude: /node_modules/,
       ...require('@wolf/babel-preset-app'),
-    });
+    })
+    .end()
+    .exclude.add(/node_modules/);
 
   // vue
   config.module
@@ -222,6 +232,7 @@ export const indentifier: Indentifier = {
     const { host, port, address } = await getAddress(config);
     const webpackConfig = callChainConfig(config, address);
     const compilter = webpack(webpackConfig);
+    // console.dir(webpackConfig, { depth: null });
     const serve = new WebpackDevServer(compilter, {
       ...(config.cli.serve.devServer as WebpackDevServer.Configuration),
       host,
@@ -246,7 +257,7 @@ ${chalk.green('Build Success')}
 Application is running at ${chalk.blue(`http://localhost:${port}`)}
 Application is running at ${chalk.blue(`http://${host}:${port}`)}
 
-        `);
+            `);
     });
   },
 };
