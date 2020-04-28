@@ -35,12 +35,23 @@ const base = {
       template: resolve('index.html'),
     }),
     new Invoke({
-      root: path.resolve(process.cwd(), 'src/views'),
+      root: resolve('views'),
+      beforeEach(to, from, next) {
+        next();
+      },
+      afterEach(to, from) {},
+      scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+          return savedPosition;
+        } else {
+          return { x: 0, y: 0 };
+        }
+      },
     }),
   ],
   resolve: {
     alias: {
-      '@': path.resolve(process.cwd(), 'src/views'),
+      '@': resolve('views'),
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },

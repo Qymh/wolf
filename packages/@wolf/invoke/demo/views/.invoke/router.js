@@ -129,4 +129,19 @@ export const router = createRouter({
       component: () => import('@/singleVue/index.vue'),
     },
   ],
+  scrollBehavior: function scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return {
+        x: 0,
+        y: 0
+      };
+    }
+  },
 });
+router.beforeEach(function beforeEach(to, from, next) {
+  next();
+});
+
+router.afterEach(function afterEach(to, from) {});

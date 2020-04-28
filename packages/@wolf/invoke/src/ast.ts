@@ -269,10 +269,6 @@ function processPage(path: string, options: Options, tree: Tree) {
   else {
     if (nestPath) {
       tree.path = tree.path.replace(nestPath, '').slice(1);
-      // if (routeType & RouteTypes.DYNAMIC_SINGLE) {
-      //   nestPath = nestPath.replace(/:/g, '_');
-      // }
-      // tree.nestPath = DirectoryTreeRelativePath;
     }
   }
 

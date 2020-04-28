@@ -86,7 +86,7 @@ function genRouteOptionsBuffer(push: PushBuffer, options: Options) {
   const { scrollBehavior } = options;
   if (scrollBehavior) {
     push(`
-      scrollBehavior: ${scrollBehavior.toString()},
+      scrollBehavior: function ${scrollBehavior.toString()},
     `);
   }
 }
@@ -113,7 +113,7 @@ function genGlobalGuards(
   beforeEach: string
 ) {
   push(`
-    router.${type}(${beforeEach});
+    router.${type}(function ${beforeEach});
   `);
 }
 

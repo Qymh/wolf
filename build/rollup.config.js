@@ -8,21 +8,20 @@ const bt = require('builtin-modules');
 const execa = require('execa');
 const cr = require('chokidar');
 const target = process.env.TARGET;
+
 const resolve = (str) =>
   path.resolve(process.cwd(), 'packages/@wolf', target, str);
 
 const pkg = require(`${resolve('package.json')}`);
-const outerPkg = require(path.resolve(process.cwd(), 'package.json'));
 
 const dependencies = Object.keys(pkg.dependencies || {});
 const devDependencies = Object.keys(pkg.devDependencies || {});
-const outerDevDependencies = Object.keys(outerPkg.devDependencies || {});
 
 const configs = {
   invoke: {
     input: resolve('src/index.ts'),
     output: {
-      file: resolve(`dist/invoke.dev.js`),
+      file: resolve(`dist/invoke.js`),
       format: 'cjs',
     },
   },
@@ -36,14 +35,14 @@ const configs = {
   shared: {
     input: resolve('src/index.ts'),
     output: {
-      file: resolve('dist/shared.dev.js'),
+      file: resolve('dist/shared.js'),
       format: 'cjs',
     },
   },
   'babel-preset-app': {
     input: resolve('src/index.ts'),
     output: {
-      file: resolve('dist/babel-preset-app.dev.js'),
+      file: resolve('dist/babel-preset-app.js'),
       format: 'cjs',
     },
   },
@@ -65,14 +64,7 @@ const rollupConfig = {
       __DEV__: process.env.NODE_ENV !== 'production',
     }),
   ],
-  external: Array.from(
-    new Set([
-      ...bt,
-      ...dependencies,
-      ...devDependencies,
-      ...outerDevDependencies,
-    ])
-  ),
+  external: Array.from(new Set([...bt, ...dependencies, ...devDependencies])),
 };
 
 let watched = false;
@@ -83,8 +75,8 @@ if (target === 'invoke') {
     const watcher = cr.watch(resolve('dist'), { persistent: true });
     watcher.on('all', (event) => {
       if (event === 'change') {
-        if (fs.existsSync(resolve('dist/invoke.dev.js'))) {
-          execa('node', [resolve('dist/invoke.dev.js')], {
+        if (fs.existsSync(resolve('dist/invoke.js'))) {
+          execa('node', [resolve('dist/invoke.js')], {
             stdio: 'inherit',
           });
         }

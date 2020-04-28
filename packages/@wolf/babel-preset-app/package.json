@@ -5,7 +5,7 @@
   "author": "Qymh <415570450@qq.com>",
   "homepage": "https://github.com/Qymh/wolf#readme",
   "license": "ISC",
-  "main": "dist/babel-preset-app.dev.js",
+  "main": "dist/babel-preset-app.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"

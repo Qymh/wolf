@@ -220,17 +220,13 @@ src
 src/views/.invoke/router.js
 
 ```js
-import {
-  createRouter,
-  createWebHistory
-} from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 export const routerHistory = createWebHistory();
 export const router = createRouter({
   history: routerHistory,
 
   routes: [
-
     {
       name: 'index',
       path: '/',
@@ -242,7 +238,6 @@ export const router = createRouter({
       component: () => import('@/nest/nest.vue'),
 
       children: [
-
         {
           name: 'nest-child',
           path: 'child',
@@ -257,4 +252,145 @@ export const router = createRouter({
     },
   ],
 });
+```
+
+## Route Options
+
+route options just like `meta` `redirect` you can set by using `route.yml`
+
+```tree
+src
+├── app.vue
+├── main.js
+└── views
+    ├── index.vue
+    └── single
+        ├── index.vue
+        └── route.yml
+```
+
+route.yml
+
+```yaml
+meta:
+  number: 123
+  string: 'string'
+  boolean: true
+
+redirect: '/test'
+```
+
+src/views/.invoke/router.js
+
+```js
+import { createRouter, createWebHistory } from 'vue-router';
+
+export const routerHistory = createWebHistory();
+export const router = createRouter({
+  history: routerHistory,
+
+  routes: [
+    {
+      name: 'index',
+      path: '/',
+      component: () => import('@/index.vue'),
+    },
+    {
+      name: 'single',
+      path: '/single',
+      component: () => import('@/single/index.vue'),
+
+      meta: {
+        number: 123,
+        string: 'string',
+        boolean: true,
+      },
+
+      redirect: '/test',
+    },
+  ],
+});
+```
+
+## Guard Options
+
+global guards of `vue-router` you can set it by `Invoke` Options
+
+webpack.config.js
+
+```js
+const Invoke = require('@wolf/invoke');
+const path = require('path');
+
+module.exports = {
+  // omit some options
+  mode: ...,
+  entry: ...,
+
+  // you [must] set alias path the same as Invoke's root option
+  resolve:{
+    alias:{
+      '@': path.resolve(process.cwd(), 'src/views')
+    }
+  }
+
+  // Cite at here
+  plugins:[
+    new Invoke({
+      root: path.resolve(process.cwd(), 'src/views'), // should be the same as resolve.alias.@
+      beforeEach(to, from, next) {
+        next();
+      },
+      afterEach(to, from) {},
+      scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+          return savedPosition;
+        } else {
+          return { x: 0, y: 0 };
+        }
+      },
+    })
+  ]
+}
+```
+
+```tree
+src
+├── app.vue
+├── main.js
+└── views
+    └── index.vue
+```
+
+src/views/.invoke/router.js
+
+```js
+import { createRouter, createWebHistory } from 'vue-router';
+
+export const routerHistory = createWebHistory();
+export const router = createRouter({
+  history: routerHistory,
+  routes: [
+    {
+      name: 'index',
+      path: '/',
+      component: () => import('@/index.vue'),
+    },
+  ],
+  scrollBehavior: function scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return {
+        x: 0,
+        y: 0,
+      };
+    }
+  },
+});
+router.beforeEach(function beforeEach(to, from, next) {
+  next();
+});
+
+router.afterEach(function afterEach(to, from) {});
 ```
