@@ -6,8 +6,13 @@ A new mentality of framework for Vue3
 
 - [] cli
 
-  - [] generate
+  - [x] generate
+  - [] create
   - [] serve
   - [] build
 
-- [] model vuex saga
+- [] lint
+
+- [] vuex model
+
+- [] plugin api
