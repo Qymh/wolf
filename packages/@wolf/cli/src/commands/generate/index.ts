@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import { Indentifier } from './index';
+import { Indentifier } from '../index';
 import {
   createSchema,
   // eslint-disable-next-line no-unused-vars
@@ -11,7 +11,7 @@ import {
   chalk,
   fs,
 } from '@wolf/shared';
-import { error } from '../utils';
+import { error, checkDirExisted } from '../../utils';
 import path from 'path';
 
 const typeValue = tuple(
@@ -85,26 +85,7 @@ async function outputFiles(
     }
   }
 
-  if (fs.existsSync(realDir)) {
-    await inquirer
-      .prompt({
-        name: 'overrideDir',
-        type: 'confirm',
-        message: `${chalk.blue(
-          realDir
-        )} is existed, are you sure to override it?`,
-      })
-      .then((res) => {
-        if (!res.overrideDir) {
-          process.exit();
-        } else {
-          fs.removeSync(realDir);
-          writeFiles();
-        }
-      });
-  } else {
-    writeFiles();
-  }
+  checkDirExisted(realDir, writeFiles);
 }
 
 export const indentifier: Indentifier = {

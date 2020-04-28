@@ -1,5 +1,6 @@
-import { indentifier as GenerateIndentifier } from './generate';
+import { indentifier as GenerateIndentifier } from './generate/index';
 import { indentifier as ServeIndentifier } from './serve';
+import { indentifier as CreateIndentifier } from './create';
 // eslint-disable-next-line no-unused-vars
 import { program, camelize, Dictionary } from '@wolf/shared';
 
@@ -44,5 +45,6 @@ export function generateCommander(...args: Indentifier[]) {
 
 export const Commanders = generateCommander(
   GenerateIndentifier,
-  ServeIndentifier
+  ServeIndentifier,
+  CreateIndentifier
 );

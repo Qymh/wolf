@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import { Indentifier } from './index';
+import { Indentifier } from '../index';
 import { getConfig, baseConfig, chalk, clearConsole } from '@wolf/shared';
 // eslint-disable-next-line no-unused-vars
 import Config from 'webpack-chain';
