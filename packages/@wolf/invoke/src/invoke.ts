@@ -53,8 +53,8 @@ function normalizeOptions(options: Options): Options | never {
 
   options.getRelativePath = generateGetRelativePathFn(root);
   options.dist =
-    outputDir ||
-    root + `/.invoke/router.${language === 'javascript' ? 'js' : 'ts'}`;
+    (outputDir || root) +
+    `/.invoke/router.${language === 'javascript' ? 'js' : 'ts'}`;
 
   return options;
 }

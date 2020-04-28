@@ -19,5 +19,10 @@ export const router = createRouter({
       path: '/home',
       component: () => import('@/home/index.vue'),
     },
+    {
+      name: 'single',
+      path: '/single',
+      component: () => import('@/single/index.ts'),
+    },
   ],
 });

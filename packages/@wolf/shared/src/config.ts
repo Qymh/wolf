@@ -68,6 +68,7 @@ ${
     },
     serve: {
       entry: path.resolve(process.cwd(), 'src/main.js'),
+      template: path.resolve(process.cwd(), 'public/index.html'),
       publicPath: '/',
       chainWebpack(config: any) {
         return config;

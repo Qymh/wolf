@@ -27,7 +27,7 @@ const getDefaultChainWebpack = (config: Config) => {
     .publicPath('/');
 
   // resolve
-  config.resolve.alias.set('@', path.resolve(process.cwd(), 'demo'));
+  config.resolve.alias.set('@', path.resolve(process.cwd(), 'src'));
   config.resolve.extensions
     .add('.js')
     .add('.jsx')
@@ -143,13 +143,6 @@ const getDefaultChainWebpack = (config: Config) => {
     },
   ]);
 
-  // html
-  config.plugin('html').use(require('html-webpack-plugin'), [
-    {
-      template: path.resolve(process.cwd(), 'public/index.html'),
-    },
-  ]);
-
   // css
   config.plugin('css').use(require('mini-css-extract-plugin'), [
     {
@@ -199,18 +192,31 @@ function callChainConfig(config: typeof baseConfig, address: string) {
   getDefaultChainWebpack(chainConfig);
   config.cli.serve.chainWebpack(chainConfig);
   normalizeConfig(chainConfig);
-  genDevClients(chainConfig, address);
+  genDevFunctions(chainConfig, address, config);
   genInvokePlugin(chainConfig, config);
   return chainConfig.toConfig();
 }
 
-function genDevClients(chainConfig: Config, address: string) {
+function genDevFunctions(
+  chainConfig: Config,
+  address: string,
+  config: typeof baseConfig
+) {
   chainConfig
     .entry('main')
     .prepend(require.resolve('webpack/hot/dev-server'))
     .prepend(
       require.resolve(`webpack-dev-server/client`) + `?${address}/sockjs-node`
     );
+
+  // html
+  chainConfig.plugin('html').use(require('html-webpack-plugin'), [
+    {
+      template: config.cli.serve.template,
+    },
+  ]);
+
+  chainConfig.plugin('friend').use(require('friendly-errors-webpack-plugin'));
 }
 
 function genInvokePlugin(chainConfig: Config, config: typeof baseConfig) {
@@ -237,6 +243,7 @@ export const indentifier: Indentifier = {
       ...(config.cli.serve.devServer as WebpackDevServer.Configuration),
       host,
       noInfo: true,
+      historyApiFallback: true,
     });
     serve.listen(port, '0.0.0.0', (err) => {
       if (err) {

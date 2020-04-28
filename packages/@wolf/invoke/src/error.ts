@@ -28,9 +28,11 @@ export function error(
   // eslint-disable-next-line no-console
   console.log(
     chalk.red(
-      `[@wolf/invoke] ${before || ''} ${errorMessages[code]} ${
+      `
+      [@wolf/invoke] ${before || ''} ${errorMessages[code]} ${
         raw ? `, which get ${chalk.blueBright(raw)}` : ''
-      } ${details ? `, ${details}` : ''}`
+      } ${details ? `, ${details}` : ''}
+      `
     )
   );
 }
