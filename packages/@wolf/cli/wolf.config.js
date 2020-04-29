@@ -7,6 +7,7 @@ module.exports = {
     },
     serve: {
       template: path.resolve(__dirname, 'demo/public/index.html'),
+      output: path.resolve(__dirname, 'demo/dist'),
       chainWebpack(config) {
         config.entry('main').add(path.resolve(__dirname, 'demo/main.ts'));
         config.resolve.alias.set(

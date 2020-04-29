@@ -7,8 +7,6 @@ import {
   tuple,
   getConfig,
   baseConfig,
-  inquirer,
-  chalk,
   fs,
 } from '@wolf/shared';
 import { error, checkDirExisted } from '../../utils';
@@ -112,7 +110,7 @@ export const indentifier: Indentifier = {
       default: 'scss',
     },
   ],
-  async action(name, cmd, args: GenerateArgs) {
+  async action({ name, args }) {
     const config = getConfig();
     const { type, language, preprocessor } = config.cli.generate;
     args = { type, language, preprocessor, ...args };

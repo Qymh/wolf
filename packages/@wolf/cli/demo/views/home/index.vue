@@ -1,5 +1,7 @@
 <template>
-  <div>123</div>
+  <div class="test">
+    123
+  </div>
 </template>
 
 <script>
@@ -11,4 +13,8 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="css" scoped>
+.test {
+  color: red;
+}
+</style>

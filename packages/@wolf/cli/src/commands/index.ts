@@ -1,8 +1,18 @@
 import { indentifier as GenerateIndentifier } from './generate/index';
 import { indentifier as ServeIndentifier } from './serve';
 import { indentifier as CreateIndentifier } from './create';
+import { indentifier as BuildIndentifier } from './build';
 // eslint-disable-next-line no-unused-vars
-import { program, camelize, Dictionary } from '@wolf/shared';
+import { program, camelize, Dictionary, getConfig } from '@wolf/shared';
+import { baseConfig } from 'packages/@wolf/shared/dist/shared';
+import Config from 'webpack-chain';
+
+export type IndentifierAction = {
+  name: string;
+  args: any;
+  chainConfig: Config;
+  config: typeof baseConfig;
+};
 
 export type Indentifier = {
   command: string;
@@ -13,11 +23,14 @@ export type Indentifier = {
     desc: string;
     default?: string | boolean;
   }[];
-  action: (name: string, cmd: any, args: any) => void;
+  action: (arg: IndentifierAction) => void | Promise<any>;
 };
 
 function cleanArgs(cmd: any) {
   const args: Dictionary = {};
+  if (!cmd) {
+    return args;
+  }
   cmd.options.forEach((o: any) => {
     const key = camelize(o.long.replace(/^--/, ''));
     if (typeof cmd[key] !== 'function' && typeof cmd[key] !== 'undefined') {
@@ -35,8 +48,15 @@ export function generateCommander(...args: Indentifier[]) {
         com.option(`-${flag}, --${details}, ${desc}s, ${defaultValue}`);
       }
       com.action((name, cmd) => {
+        const chainConfig = new Config();
+        const config = getConfig();
         const args = cleanArgs(cmd);
-        action(name, cmd, args);
+        action({
+          name,
+          args,
+          chainConfig,
+          config,
+        });
       });
     }
     program.parse(process.argv);
@@ -46,5 +66,6 @@ export function generateCommander(...args: Indentifier[]) {
 export const Commanders = generateCommander(
   GenerateIndentifier,
   ServeIndentifier,
-  CreateIndentifier
+  CreateIndentifier,
+  BuildIndentifier
 );

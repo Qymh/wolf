@@ -24,7 +24,7 @@ function genPkg(name: string) {
       '@wolf/cli': `^${version}`,
     },
   };
-  return JSON.stringify(pkg);
+  return JSON.stringify(pkg, null, 2);
 }
 
 function genTemplate(name: string) {
@@ -38,7 +38,7 @@ export const indentifier: Indentifier = {
   command: 'create <app-name>',
   description: 'create an app by using plugins of @wolf',
   options: [],
-  action(name, cmd, args) {
+  action({ name }) {
     checkDirExisted(resolveCwd(name), () => genTemplate(name));
   },
 };
