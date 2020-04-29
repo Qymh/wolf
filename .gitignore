@@ -2,3 +2,5 @@ node_modules
 dist
 lerna-debug.log
 **/bin/wolf.js
+
+**/.invoke
