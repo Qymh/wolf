@@ -1,7 +1,5 @@
-// eslint-disable-next-line no-unused-vars
 import { Compiler } from 'webpack';
 import path from 'path';
-// eslint-disable-next-line no-unused-vars
 import { NavigationGuard, RouterOptions } from 'vue-router';
 import { generate } from './generate';
 import { ErrorCodes, error } from './error';
@@ -32,7 +30,7 @@ export const defaultOptions: Options = {
   outputDir: '',
   language: 'javascript',
   mode: 'history',
-  getRelativePath: (path) => path,
+  getRelativePath: (path) => path
 };
 
 function normalizeOptions(options: Options): Options | never {

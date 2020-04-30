@@ -2,7 +2,6 @@ import { indentifier as GenerateIndentifier } from './generate/index';
 import { indentifier as ServeIndentifier } from './serve';
 import { indentifier as CreateIndentifier } from './create';
 import { indentifier as BuildIndentifier } from './build';
-// eslint-disable-next-line no-unused-vars
 import { program, camelize, Dictionary, getConfig } from '@wolf/shared';
 import { baseConfig } from 'packages/@wolf/shared/dist/shared';
 import Config from 'webpack-chain';
@@ -55,7 +54,7 @@ export function generateCommander(...args: Indentifier[]) {
           name,
           args,
           chainConfig,
-          config,
+          config
         });
       });
     }

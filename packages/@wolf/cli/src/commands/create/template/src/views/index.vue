@@ -5,8 +5,7 @@
 <script>
 export default {
   name: 'Index'
-}
+};
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -13,9 +13,8 @@ export async function checkDirExisted(dir: string, cb: Function) {
       .prompt({
         name: 'overrideDir',
         type: 'confirm',
-        message: `${chalk.blue(dir)} is existed, are you sure to override it?`,
+        message: `${chalk.blue(dir)} is existed, are you sure to override it?`
       })
-      // eslint-disable-next-line space-before-function-paren
       .then(async (res) => {
         if (!res.overrideDir) {
           process.exit();

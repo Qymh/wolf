@@ -1,7 +1,5 @@
 {
-  "packages": [
-    "packages/@wolf/*"
-  ],
+  "packages": ["packages/@wolf/*"],
   "npmClient": "yarn",
   "version": "0.0.0"
 }

@@ -1,7 +1,5 @@
-// eslint-disable-next-line no-unused-vars
 import { Indentifier } from '../index';
 import { baseConfig, chalk, clearConsole } from '@wolf/shared';
-// eslint-disable-next-line no-unused-vars
 import Config from 'webpack-chain';
 import path from 'path';
 import webpack from 'webpack';
@@ -45,13 +43,13 @@ export const getDefaultChainWebpack = (
     .use('babel')
     .loader('babel-loader')
     .options({
-      ...require('@wolf/babel-preset-app'),
+      ...require('@wolf/babel-preset-app')
     })
     .end()
     .use('cache-loader')
     .loader('cache-loader')
     .options({
-      cacheDirectory: 'node_modules/.cache/babel-loader',
+      cacheDirectory: 'node_modules/.cache/babel-loader'
     })
     .end()
     .exclude.add(/node_modules/);
@@ -66,7 +64,7 @@ export const getDefaultChainWebpack = (
     .use('cache-loader')
     .loader('cache-loader')
     .options({
-      cacheDirectory: 'node_modules/.cache/vue-loader',
+      cacheDirectory: 'node_modules/.cache/vue-loader'
     });
 
   // images
@@ -80,9 +78,9 @@ export const getDefaultChainWebpack = (
       fallback: {
         loader: 'file-loader',
         options: {
-          name: 'images/[name].[hash:8].[ext]',
-        },
-      },
+          name: 'images/[name].[hash:8].[ext]'
+        }
+      }
     });
 
   // media
@@ -96,9 +94,9 @@ export const getDefaultChainWebpack = (
       fallback: {
         loader: 'file-loader',
         options: {
-          name: 'media/[name].[hash:8].[ext]',
-        },
-      },
+          name: 'media/[name].[hash:8].[ext]'
+        }
+      }
     });
 
   // fonts
@@ -112,9 +110,9 @@ export const getDefaultChainWebpack = (
       fallback: {
         loader: 'file-loader',
         options: {
-          name: 'fonts/[name].[hash:8].[ext]',
-        },
-      },
+          name: 'fonts/[name].[hash:8].[ext]'
+        }
+      }
     });
 
   // vue plugins
@@ -125,10 +123,10 @@ export const getDefaultChainWebpack = (
     {
       process: {
         env: {
-          NODE_ENV: JSON.stringify('development'),
-        },
-      },
-    },
+          NODE_ENV: JSON.stringify('development')
+        }
+      }
+    }
   ]);
 
   // progress
@@ -139,7 +137,7 @@ export const getDefaultChainWebpack = (
         chalk.green.bold(':percent') +
         ' (:elapsed seconds)',
       clear: false,
-      summary: false,
+      summary: false
     })
   );
 
@@ -151,7 +149,7 @@ export const getDefaultChainWebpack = (
     modules: false,
     children: false,
     chunks: false,
-    chunkModules: false,
+    chunkModules: false
   });
 
   // call user config
@@ -165,12 +163,12 @@ async function getAddress(config: typeof baseConfig) {
     host = address.ip(res && res.interface) || '0.0.0.0';
   }
   const port = await portfinder.getPortPromise({
-    port: config.cli.serve.devServer.port,
+    port: config.cli.serve.devServer.port
   });
   return {
     host,
     port,
-    address: `http://${host}:${port}`,
+    address: `http://${host}:${port}`
   };
 }
 
@@ -236,15 +234,15 @@ function genDevFunctions(
   // html
   chainConfig.plugin('html').use(require('html-webpack-plugin'), [
     {
-      template: config.cli.serve.template,
-    },
+      template: config.cli.serve.template
+    }
   ]);
 
   // mini-css
   chainConfig.plugin('css').use(require('mini-css-extract-plugin'), [
     {
-      filename: '[name].css',
-    },
+      filename: '[name].css'
+    }
   ]);
 
   // friend
@@ -270,12 +268,11 @@ export const indentifier: Indentifier = {
       ...(config.cli.serve.devServer as WebpackDevServer.Configuration),
       host,
       noInfo: true,
-      historyApiFallback: true,
+      historyApiFallback: true
     });
 
     serve.listen(port, '0.0.0.0', (err) => {
       if (err) {
-        // eslint-disable-next-line no-console
         console.log(err);
       }
     });
@@ -285,7 +282,6 @@ export const indentifier: Indentifier = {
         return;
       }
       clearConsole();
-      // eslint-disable-next-line no-console
       console.log(`
 ${chalk.green('Build Success')}
 
@@ -294,5 +290,5 @@ Application is running at ${chalk.blue(`http://${host}:${port}`)}
 
             `);
     });
-  },
+  }
 };

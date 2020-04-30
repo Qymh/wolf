@@ -1,11 +1,8 @@
-// eslint-disable-next-line no-unused-vars
 import { Indentifier } from '../index';
-// eslint-disable-next-line no-unused-vars
 import Config from 'webpack-chain';
 import { baseConfig, chalk, fs } from '@wolf/shared';
 import { getDefaultChainWebpack, normalizeConfig } from '../serve';
 import Css from 'mini-css-extract-plugin';
-import path from 'path';
 import webpack from 'webpack';
 
 function callChainConfig(chainConfig: Config, config: typeof baseConfig) {
@@ -59,21 +56,21 @@ function genProdFunctions(chainConfig: Config, config: typeof baseConfig) {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           priority: 10,
-          chunks: 'initial',
+          chunks: 'initial'
         },
         async: {
           priority: 5,
-          chunks: 'async',
-        },
-      },
+          chunks: 'async'
+        }
+      }
     })
     .runtimeChunk('single');
 
   // css
   chainConfig.plugin('css').use(require('mini-css-extract-plugin'), [
     {
-      filename: '[name].[hash].css',
-    },
+      filename: '[name].[hash].css'
+    }
   ]);
 }
 
@@ -92,17 +89,14 @@ export const indentifier: Indentifier = {
       }
       const { errors, warnings } = stats.toJson('errors-only');
       if (stats.hasErrors()) {
-        // eslint-disable-next-line no-console
         console.log(chalk.red(errors.join('\n')));
       }
       if (stats.hasWarnings()) {
-        // eslint-disable-next-line no-console
         console.log(chalk.yellow(warnings.join('\n')));
       }
 
-      // eslint-disable-next-line no-console
       console.log(chalk.green('\n build successed \n'));
       process.exit(1);
     });
-  },
+  }
 };

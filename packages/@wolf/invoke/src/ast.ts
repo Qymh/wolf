@@ -1,14 +1,12 @@
 import { fs } from '@wolf/shared';
-// eslint-disable-next-line no-unused-vars
 import {
   isDir,
   isFile,
   isVue,
   isYAML,
   replacePostfix,
-  isJsOrTs,
+  isJsOrTs
 } from './utils';
-// eslint-disable-next-line no-unused-vars
 import { Options } from './invoke';
 import { error, ErrorCodes } from './error';
 import yaml from 'js-yaml';
@@ -52,7 +50,7 @@ export const enum RouteTypes {
   SINGLE = SIMPLE_SINGLE | DYNAMIC_SINGLE,
   NEST = SIMPLE_NEST | DYNAMIC_NEST,
   DYNAMIC = DYNAMIC_SINGLE | DYNAMIC_NEST,
-  UNKNOWN = 1 << 4,
+  UNKNOWN = 1 << 4
 }
 /* eslint-enable no-unused-vars */
 
@@ -69,8 +67,8 @@ function createTree(name: string = '', path: string = '', type?: RouteTypes) {
       path: '',
       relativePath: '',
       children: [],
-      defaultPage: '',
-    },
+      defaultPage: ''
+    }
   };
   return tree;
 }
@@ -188,7 +186,7 @@ function processDirectory(path: string, options: Options, parent: Tree) {
     path,
     relativePath,
     children: [],
-    defaultPage,
+    defaultPage
   };
   tree.parent = parent;
   parent.children.push(tree);

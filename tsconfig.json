@@ -36,5 +36,5 @@
     "jsxFactory": "h"
   },
   "include": ["**/*.ts", "**/*.d.ts", "**/*.tsx", "**/*.js"],
-  "exclude": ["node_modules","**/.invoke/router.ts"]
+  "exclude": ["node_modules", "**/.invoke/router.ts"]
 }

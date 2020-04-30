@@ -1,7 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { merge } from './base';
-// eslint-disable-next-line no-unused-vars
 
 export const baseConfig = {
   cli: {
@@ -63,8 +62,8 @@ ${
   `
 <style lang="${preprocessor}" scoped></style>
 `
-}`,
-      },
+}`
+      }
     },
     serve: {
       entry: path.resolve(process.cwd(), 'src/main.js'),
@@ -83,15 +82,15 @@ ${
         historyApiFallback: true,
         overlay: { warnings: false, errors: true },
         watchOptions: {
-          ignored: /node_modules/,
-        },
-      },
-    },
+          ignored: /node_modules/
+        }
+      }
+    }
   },
   invoke: {
     root: '',
-    language: 'typescript',
-  },
+    language: 'typescript'
+  }
 };
 
 export function getConfig(): typeof baseConfig {

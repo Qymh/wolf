@@ -22,30 +22,30 @@ const configs = {
     input: resolve('src/index.ts'),
     output: {
       file: resolve(`dist/invoke.js`),
-      format: 'cjs',
-    },
+      format: 'cjs'
+    }
   },
   cli: {
     input: resolve('bin/wolf.ts'),
     output: {
       file: resolve('bin/wolf.js'),
-      format: 'cjs',
-    },
+      format: 'cjs'
+    }
   },
   shared: {
     input: resolve('src/index.ts'),
     output: {
       file: resolve('dist/shared.js'),
-      format: 'cjs',
-    },
+      format: 'cjs'
+    }
   },
   'babel-preset-app': {
     input: resolve('src/index.ts'),
     output: {
       file: resolve('dist/babel-preset-app.js'),
-      format: 'cjs',
-    },
-  },
+      format: 'cjs'
+    }
+  }
 };
 
 const config = configs[target];
@@ -55,16 +55,16 @@ const rollupConfig = {
   plugins: [
     cjs(),
     rs({
-      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx']
     }),
     ts({
-      check: false,
+      check: false
     }),
     replace({
-      __DEV__: process.env.NODE_ENV !== 'production',
-    }),
+      __DEV__: process.env.NODE_ENV !== 'production'
+    })
   ],
-  external: Array.from(new Set([...bt, ...dependencies, ...devDependencies])),
+  external: Array.from(new Set([...bt, ...dependencies, ...devDependencies]))
 };
 
 let watched = false;
@@ -77,7 +77,7 @@ if (target === 'invoke') {
       if (event === 'change') {
         if (fs.existsSync(resolve('dist/invoke.js'))) {
           execa('node', [resolve('dist/invoke.js')], {
-            stdio: 'inherit',
+            stdio: 'inherit'
           });
         }
       }

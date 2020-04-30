@@ -25,7 +25,7 @@ function run(target) {
     'rollup',
     ['-wc', 'build/rollup.config.js', '--environment', `TARGET:${target}`],
     {
-      stdio: 'inherit',
+      stdio: 'inherit'
     }
   );
 }

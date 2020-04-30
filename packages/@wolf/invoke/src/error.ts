@@ -10,7 +10,6 @@ export function success(path?: string) {
   if (hasError) {
     return;
   }
-  // eslint-disable-next-line no-console
   console.log(
     chalk.green(
       `[@wolf/invoke] ${`successed build ${path} at ${new Date().toLocaleTimeString()}`}`
@@ -25,7 +24,6 @@ export function error(
   details?: string
 ) {
   hasError = true;
-  // eslint-disable-next-line no-console
   console.log(
     chalk.red(
       `
@@ -43,7 +41,6 @@ export function warn(
   raw?: any,
   details?: string
 ) {
-  // eslint-disable-next-line no-console
   console.log(
     chalk.yellow(
       `[@wolf/invoke] ${before || ''} ${errorMessages[code]}${
@@ -66,7 +63,7 @@ export const enum ErrorCodes {
   NO_ROOT,
   NO_ALIAS,
   WRONG_YML,
-  WRONG_OUTPUTDIR,
+  WRONG_OUTPUTDIR
 }
 /* eslint-enable no-unused-vars */
 
@@ -84,5 +81,5 @@ export const errorMessages = {
   [ErrorCodes.NO_ROOT]: 'the root option is needed',
   [ErrorCodes.NO_ALIAS]: 'the alias option is needed',
   [ErrorCodes.WRONG_YML]: 'the yml option is not a valid yml name',
-  [ErrorCodes.WRONG_OUTPUTDIR]: 'the outputdir option must be a directory',
+  [ErrorCodes.WRONG_OUTPUTDIR]: 'the outputdir option must be a directory'
 };

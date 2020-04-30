@@ -9,9 +9,9 @@ export default defineComponent({
       h(
         'div',
         {
-          class: 'test',
+          class: 'test'
         },
         'single'
       );
-  },
+  }
 });

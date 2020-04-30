@@ -126,24 +126,24 @@ export const router = createRouter({
     {
       name: 'index',
       path: '/',
-      component: () => import('@/index.vue'),
+      component: () => import('@/index.vue')
     },
     {
       name: 'shop',
       path: '/shop',
-      component: () => import('@/shop/index.vue'),
+      component: () => import('@/shop/index.vue')
     },
     {
       name: 'shop-star',
       path: '/shop/star',
-      component: () => import('@/shop/star/index.vue'),
+      component: () => import('@/shop/star/index.vue')
     },
     {
       name: 'user',
       path: '/user',
-      component: () => import('@/user/index.vue'),
-    },
-  ],
+      component: () => import('@/user/index.vue')
+    }
+  ]
 });
 ```
 
@@ -178,24 +178,24 @@ export const router = createRouter({
     {
       name: 'index',
       path: '/',
-      component: () => import('@/index.vue'),
+      component: () => import('@/index.vue')
     },
     {
       name: 'user',
       path: '/:user',
-      component: () => import('@/_user/index.vue'),
+      component: () => import('@/_user/index.vue')
     },
     {
       name: 'shop',
       path: '/shop',
-      component: () => import('@/shop/index.vue'),
+      component: () => import('@/shop/index.vue')
     },
     {
       name: 'shop-star',
       path: '/shop/:star',
-      component: () => import('@/shop/_star/index.vue'),
-    },
-  ],
+      component: () => import('@/shop/_star/index.vue')
+    }
+  ]
 });
 ```
 
@@ -230,7 +230,7 @@ export const router = createRouter({
     {
       name: 'index',
       path: '/',
-      component: () => import('@/index.vue'),
+      component: () => import('@/index.vue')
     },
     {
       name: 'nest',
@@ -241,16 +241,16 @@ export const router = createRouter({
         {
           name: 'nest-child',
           path: 'child',
-          component: () => import('@/nest/child/index.vue'),
+          component: () => import('@/nest/child/index.vue')
         },
         {
           name: 'nest-inner',
           path: 'inner',
-          component: () => import('@/nest/inner/index.vue'),
-        },
-      ],
-    },
-  ],
+          component: () => import('@/nest/inner/index.vue')
+        }
+      ]
+    }
+  ]
 });
 ```
 
@@ -293,7 +293,7 @@ export const router = createRouter({
     {
       name: 'index',
       path: '/',
-      component: () => import('@/index.vue'),
+      component: () => import('@/index.vue')
     },
     {
       name: 'single',
@@ -303,12 +303,12 @@ export const router = createRouter({
       meta: {
         number: 123,
         string: 'string',
-        boolean: true,
+        boolean: true
       },
 
-      redirect: '/test',
-    },
-  ],
+      redirect: '/test'
+    }
+  ]
 });
 ```
 
@@ -374,8 +374,8 @@ export const router = createRouter({
     {
       name: 'index',
       path: '/',
-      component: () => import('@/index.vue'),
-    },
+      component: () => import('@/index.vue')
+    }
   ],
   scrollBehavior: function scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
@@ -383,10 +383,10 @@ export const router = createRouter({
     } else {
       return {
         x: 0,
-        y: 0,
+        y: 0
       };
     }
-  },
+  }
 });
 router.beforeEach(function beforeEach(to, from, next) {
   next();

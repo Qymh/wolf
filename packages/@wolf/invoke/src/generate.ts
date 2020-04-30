@@ -1,6 +1,4 @@
-// eslint-disable-next-line no-unused-vars
 import { Options } from './invoke';
-// eslint-disable-next-line no-unused-vars
 import { genAST, Tree, RouteTypes } from './ast';
 import { beautify } from '@wolf/shared';
 import { watchFiles, outputFile } from './file';
@@ -37,9 +35,9 @@ function createBuffer(options: Options) {
     get() {
       return beautify.js(buffer, {
         indent_size: 2,
-        space_in_empty_paren: true,
+        space_in_empty_paren: true
       });
-    },
+    }
   };
 }
 

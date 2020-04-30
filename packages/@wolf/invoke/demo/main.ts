@@ -6,10 +6,10 @@ const app = createApp(
   {
     setup() {
       return () => h(Index);
-    },
+    }
   },
   {
-    router,
+    router
   }
 );
 

@@ -1,13 +1,11 @@
-// eslint-disable-next-line no-unused-vars
 import { Indentifier } from '../index';
 import {
   createSchema,
-  // eslint-disable-next-line no-unused-vars
   Dictionary,
   tuple,
   getConfig,
   baseConfig,
-  fs,
+  fs
 } from '@wolf/shared';
 import { error, checkDirExisted } from '../../utils';
 import path from 'path';
@@ -38,7 +36,7 @@ function validate(args: Dictionary) {
     return joi.object({
       type: joi.string().valid(...typeValue),
       language: joi.string().valid(...languageValue),
-      preprocessor: joi.string().valid(...preprocessorValue),
+      preprocessor: joi.string().valid(...preprocessorValue)
     });
   });
   const { error: _error } = schema.validate(args);
@@ -95,20 +93,20 @@ export const indentifier: Indentifier = {
       flag: 't',
       details: 'type <route-type>',
       desc: 'route type s(single) n(nest) sd(single-dynamic) nd(nest-dynamic)',
-      default: 'single',
+      default: 'single'
     },
     {
       flag: 'l',
       details: 'language <language-ext>',
       desc: 'javascript language (js jsx ts tsx vue)',
-      default: 'ts',
+      default: 'ts'
     },
     {
       flag: 'p',
       details: 'preprocessor <preprocessor-ext>',
       desc: 'css preprocessor (less sass scss css)',
-      default: 'scss',
-    },
+      default: 'scss'
+    }
   ],
   async action({ name, args }) {
     const config = getConfig();
@@ -118,5 +116,5 @@ export const indentifier: Indentifier = {
     config.cli.generate = { ...config.cli.generate, ...args };
     const fileName = getFileName(name, args);
     await outputFiles(name, fileName, config);
-  },
+  }
 };

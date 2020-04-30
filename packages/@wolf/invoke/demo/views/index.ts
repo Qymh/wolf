@@ -6,5 +6,5 @@ import './index.scss';
 export default defineComponent({
   setup(props) {
     return () => h(View);
-  },
+  }
 });

@@ -5,7 +5,7 @@ import { View } from 'vue-router';
 const app = createApp({
   setup() {
     return () => h(View);
-  },
+  }
 });
 
 app.use(router);

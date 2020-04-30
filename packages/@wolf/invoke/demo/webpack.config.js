@@ -11,28 +11,28 @@ const base = {
   entry: resolve('main.ts'),
   output: {
     path: resolve('dist'),
-    filename: 'bundle.js',
+    filename: 'bundle.js'
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
+        loader: 'ts-loader'
       },
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
+        loader: 'vue-loader'
       },
       {
         test: /\.scss$/,
-        loader: ['vue-style-loader', 'css-loader', 'sass-loader'],
-      },
-    ],
+        loader: ['vue-style-loader', 'css-loader', 'sass-loader']
+      }
+    ]
   },
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-      template: resolve('index.html'),
+      template: resolve('index.html')
     }),
     new Invoke({
       root: resolve('views'),
@@ -46,15 +46,15 @@ const base = {
         } else {
           return { x: 0, y: 0 };
         }
-      },
-    }),
+      }
+    })
   ],
   resolve: {
     alias: {
-      '@': resolve('views'),
+      '@': resolve('views')
     },
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
-  },
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
+  }
 };
 
 if (isDev) {
@@ -65,8 +65,8 @@ if (isDev) {
     clientLogLevel: 'warning',
     historyApiFallback: true,
     watchOptions: {
-      ignored: /node_modules/,
-    },
+      ignored: /node_modules/
+    }
   };
 } else {
   base.optimization = {
@@ -76,17 +76,17 @@ if (isDev) {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           priority: 10,
-          chunks: 'initial',
+          chunks: 'initial'
         },
         async: {
           priority: 5,
-          chunks: 'async',
-        },
-      },
+          chunks: 'async'
+        }
+      }
     },
     runtimeChunk: {
-      name: 'runtime',
-    },
+      name: 'runtime'
+    }
   };
 }
 

@@ -1,7 +1,5 @@
 <template>
-  <div class="test">
-    123
-  </div>
+  <div class="test">123</div>
 </template>
 
 <script>
@@ -9,7 +7,7 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'home',
-  setup() {},
+  setup() {}
 });
 </script>
 

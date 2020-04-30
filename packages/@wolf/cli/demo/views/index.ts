@@ -4,5 +4,5 @@ export default defineComponent({
   name: 'index',
   setup() {
     return () => h('div', 'index');
-  },
+  }
 });

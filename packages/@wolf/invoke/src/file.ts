@@ -1,7 +1,6 @@
 import { fs, chokidar } from '@wolf/shared';
 import { isValidFile } from './ast';
 import { isYAML, clearConsole } from './utils';
-// eslint-disable-next-line no-unused-vars
 import { Options } from './invoke';
 import { resetHasError } from './error';
 
@@ -24,8 +23,8 @@ export function watchFiles({ root, dist }: Options, fn: any) {
       ignoreInitial: true,
       awaitWriteFinish: {
         stabilityThreshold: 2000,
-        pollInterval: 100,
-      },
+        pollInterval: 100
+      }
     });
     watcher.on('raw', (events, path, details) => {
       resetHasError();

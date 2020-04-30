@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import { Indentifier } from '../index';
 import path from 'path';
 import { fs } from '@wolf/shared';
@@ -14,15 +13,15 @@ function genPkg(name: string) {
     name,
     version: '0.0.0',
     scripts: {
-      serve: 'wolf serve',
+      serve: 'wolf serve'
     },
     dependencies: {
       vue: '3.0.0-alpha.13',
-      'vue-router': '4.0.0-alpha.5',
+      'vue-router': '4.0.0-alpha.5'
     },
     devDependencies: {
-      '@wolf/cli': `^${version}`,
-    },
+      '@wolf/cli': `^${version}`
+    }
   };
   return JSON.stringify(pkg, null, 2);
 }
@@ -40,5 +39,5 @@ export const indentifier: Indentifier = {
   options: [],
   action({ name }) {
     checkDirExisted(resolveCwd(name), () => genTemplate(name));
-  },
+  }
 };
