@@ -2,8 +2,14 @@ import { indentifier as GenerateIndentifier } from './generate/index';
 import { indentifier as ServeIndentifier } from './serve';
 import { indentifier as CreateIndentifier } from './create';
 import { indentifier as BuildIndentifier } from './build';
-import { program, camelize, Dictionary, getConfig } from '@wolf/shared';
-import { baseConfig } from 'packages/@wolf/shared/dist/shared';
+import { indentifier as AddIndentifier } from './add';
+import {
+  program,
+  camelize,
+  Dictionary,
+  getConfig,
+  baseConfig
+} from '@wolf/shared';
 import Config from 'webpack-chain';
 
 export type IndentifierAction = {
@@ -66,5 +72,6 @@ export const Commanders = generateCommander(
   GenerateIndentifier,
   ServeIndentifier,
   CreateIndentifier,
-  BuildIndentifier
+  BuildIndentifier,
+  AddIndentifier
 );

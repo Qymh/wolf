@@ -3,7 +3,7 @@ import { chalk, fs, inquirer } from '@wolf/shared';
 
 export function error(msg?: string) {
   if (msg) {
-    assert.fail(chalk.red(`[@wolf/cli] ${chalk.red(msg)}`));
+    assert.fail(chalk.red(`\n\n[@wolf/cli] ${chalk.red(msg)}\n\n`));
   }
 }
 

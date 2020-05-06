@@ -3,6 +3,7 @@ import path from 'path';
 import { merge } from './base';
 
 export const baseConfig = {
+  root: path.resolve(process.cwd(), 'src'),
   cli: {
     generate: {
       root: __dirname,

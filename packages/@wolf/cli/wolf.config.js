@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+  root: path.resolve(__dirname, 'demo'),
   cli: {
     generate: {
       root: path.resolve(__dirname, 'demo/views')

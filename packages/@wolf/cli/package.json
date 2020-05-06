@@ -21,6 +21,8 @@
     "@types/mini-css-extract-plugin": "^0.9.1",
     "@types/webpack-dev-server": "^3.10.1",
     "@wolf/babel-preset-app": "^0.0.0",
+    "@wolf/cli-plugin-babel": "^0.0.0",
+    "@wolf/cli-plugin-eslint": "^0.0.0",
     "@wolf/invoke": "^0.0.0",
     "@wolf/shared": "^0.0.0",
     "address": "^1.1.2",

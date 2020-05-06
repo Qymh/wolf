@@ -12,43 +12,30 @@ const target = process.env.TARGET;
 const resolve = (str) =>
   path.resolve(process.cwd(), 'packages/@wolf', target, str);
 
+let config;
+
+if (target === 'cli') {
+  config = {
+    input: resolve('bin/wolf.ts'),
+    output: {
+      file: resolve(`bin/wolf.js`),
+      format: 'cjs'
+    }
+  };
+} else {
+  config = {
+    input: resolve('src/index.ts'),
+    output: {
+      file: resolve(`dist/${target}.js`),
+      format: 'cjs'
+    }
+  };
+}
+
 const pkg = require(`${resolve('package.json')}`);
 
 const dependencies = Object.keys(pkg.dependencies || {});
 const devDependencies = Object.keys(pkg.devDependencies || {});
-
-const configs = {
-  invoke: {
-    input: resolve('src/index.ts'),
-    output: {
-      file: resolve(`dist/invoke.js`),
-      format: 'cjs'
-    }
-  },
-  cli: {
-    input: resolve('bin/wolf.ts'),
-    output: {
-      file: resolve('bin/wolf.js'),
-      format: 'cjs'
-    }
-  },
-  shared: {
-    input: resolve('src/index.ts'),
-    output: {
-      file: resolve('dist/shared.js'),
-      format: 'cjs'
-    }
-  },
-  'babel-preset-app': {
-    input: resolve('src/index.ts'),
-    output: {
-      file: resolve('dist/babel-preset-app.js'),
-      format: 'cjs'
-    }
-  }
-};
-
-const config = configs[target];
 
 const rollupConfig = {
   ...config,

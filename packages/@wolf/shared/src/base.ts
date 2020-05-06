@@ -1,4 +1,5 @@
 import readline from 'readline';
+import { inquirer, chalk, fs } from './modules';
 
 export type Dictionary<T = any> = {
   [x: string]: T;
@@ -59,5 +60,26 @@ export function clearConsole() {
     console.log(blank);
     readline.cursorTo(process.stdout, 0, 0);
     readline.clearScreenDown(process.stdout);
+  }
+}
+
+export async function checkDirExisted(dir: string, cb: Function) {
+  if (fs.existsSync(dir)) {
+    await inquirer
+      .prompt({
+        name: 'overrideDir',
+        type: 'confirm',
+        message: `${chalk.blue(dir)} is existed, are you sure to override it?`
+      })
+      .then(async (res) => {
+        if (!res.overrideDir) {
+          process.exit();
+        } else {
+          fs.removeSync(dir);
+          cb();
+        }
+      });
+  } else {
+    cb();
   }
 }

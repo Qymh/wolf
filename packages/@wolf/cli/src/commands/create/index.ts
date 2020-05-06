@@ -1,7 +1,6 @@
 import { Indentifier } from '../index';
 import path from 'path';
-import { fs } from '@wolf/shared';
-import { checkDirExisted } from '../../utils';
+import { fs, checkDirExisted } from '@wolf/shared';
 
 function resolveCwd(address: string, ...args: string[]) {
   return path.resolve(process.cwd(), address, ...args);

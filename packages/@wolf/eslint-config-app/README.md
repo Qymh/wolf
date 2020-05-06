@@ -1,11 +1,11 @@
-# `eslint-config-app`
+# `@wolf/eslint-config-app`
 
 > TODO: description
 
 ## Usage
 
 ```
-const eslintConfigApp = require('eslint-config-app');
+const eslintConfigApp = require('@wolf/eslint-config-app');
 
 // TODO: DEMONSTRATE API
 ```

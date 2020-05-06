@@ -5,9 +5,10 @@ import {
   tuple,
   getConfig,
   baseConfig,
-  fs
+  fs,
+  checkDirExisted
 } from '@wolf/shared';
-import { error, checkDirExisted } from '../../utils';
+import { error } from '../../utils';
 import path from 'path';
 
 const typeValue = tuple(
