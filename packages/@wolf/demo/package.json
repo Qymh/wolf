@@ -1,0 +1,23 @@
+{
+  "name": "demo",
+  "version": "0.0.0",
+  "scripts": {
+    "serve": "wolf serve",
+    "t": "wolf generate qwe -l vue"
+  },
+  "dependencies": {
+    "vue": "3.0.0-alpha.13",
+    "vue-router": "4.0.0-alpha.5"
+  },
+  "devDependencies": {
+    "@wolf/cli": "^0.0.0",
+    "@wolf/babel-preset-app": "^0.0.0",
+    "@wolf/cli-plugin-babel": "^0.0.0",
+    "@wolf/eslint-config-app": "^0.0.0",
+    "@wolf/cli-plugin-eslint": "^0.0.0",
+    "@wolf/cli-plugin-invoke": "^0.0.0",
+    "eslint": "^6.8.0",
+    "@typescript-eslint/parser": "^2.31.0",
+    "@typescript-eslint/eslint-plugin": "^2.31.0"
+  }
+}

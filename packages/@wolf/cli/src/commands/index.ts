@@ -17,6 +17,7 @@ export type IndentifierAction = {
   args: any;
   chainConfig: Config;
   config: typeof baseConfig;
+  getConfig?: typeof getConfig;
 };
 
 export type Indentifier = {
@@ -60,7 +61,8 @@ export function generateCommander(...args: Indentifier[]) {
           name,
           args,
           chainConfig,
-          config
+          config,
+          getConfig
         });
       });
     }

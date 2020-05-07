@@ -5,13 +5,10 @@
   "author": "Qymh <415570450@qq.com>",
   "homepage": "https://github.com/Qymh/wolf#readme",
   "license": "ISC",
-  "main": "lib/cli.js",
-  "files": [
-    "lib"
-  ],
   "bin": {
-    "wolf": "bin/wolf.js"
+    "wolf": "./bin/wolf.js"
   },
+  "main": "./bin/wolf.js",
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
@@ -36,6 +33,7 @@
     "mini-css-extract-plugin": "^0.9.0",
     "portfinder": "^1.0.25",
     "progress-bar-webpack-plugin": "^2.1.0",
+    "resolve-from": "^5.0.0",
     "sass-loader": "^8.0.2",
     "url-loader": "^4.1.0",
     "vue-loader": "16.0.0-alpha.3",

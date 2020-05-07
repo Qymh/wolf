@@ -7,13 +7,28 @@ import WebpackDevServer from 'webpack-dev-server';
 import defaultGateway from 'default-gateway';
 import address from 'address';
 import portfinder from 'portfinder';
+import resolveFrom from 'resolve-from';
 
-export const getDefaultChainWebpack = (
+function callPluginChainConfig(chainConfig: Config, config: typeof baseConfig) {
+  const { root } = config;
+  const devDependencies = require(path.resolve(root, 'package.json'))
+    .devDependencies;
+  for (const key in devDependencies) {
+    if (/^@wolf\/cli-plugin-*/.test(key)) {
+      const plugin = require(resolveFrom(root, key));
+      if (typeof plugin === 'function') {
+        plugin({ chainConfig, config });
+      }
+    }
+  }
+}
+
+export function getDefaultChainWebpack(
   chainConfig: Config,
   config: typeof baseConfig
-) => {
+) {
   // entry
-  chainConfig.entry('main').add(path.resolve(process.cwd(), 'src/main.js'));
+  chainConfig.entry('main').add(config.cli.serve.entry);
 
   // resolve
   chainConfig.resolve.alias.set('@', path.resolve(process.cwd(), 'src'));
@@ -27,13 +42,17 @@ export const getDefaultChainWebpack = (
   // modules
   chainConfig.resolve.modules
     .add(path.resolve(__dirname, '../', 'node_modules'))
-    .add(path.resolve(__dirname, '../../babel-preset-app', 'node_modules'))
+    .add(path.resolve(__dirname, '../../cli-plugin-babel', 'node_modules'))
+    .add(path.resolve(__dirname, '../../cli-plugin-eslint', 'node_modules'))
+    .add(path.resolve(__dirname, '../../cli-plugin-invoke', 'node_modules'))
     .add(path.resolve(__dirname, '../../shared', 'node_modules'));
 
   // resolveloader
   chainConfig.resolveLoader.modules
     .add(path.resolve(__dirname, '../', 'node_modules'))
-    .add(path.resolve(__dirname, '../../babel-preset-app', 'node_modules'))
+    .add(path.resolve(__dirname, '../../cli-plugin-babel', 'node_modules'))
+    .add(path.resolve(__dirname, '../../cli-plugin-eslint', 'node_modules'))
+    .add(path.resolve(__dirname, '../../cli-plugin-invoke', 'node_modules'))
     .add(path.resolve(__dirname, '../../shared', 'node_modules'));
 
   // js ts
@@ -51,8 +70,7 @@ export const getDefaultChainWebpack = (
     .options({
       cacheDirectory: 'node_modules/.cache/babel-loader'
     })
-    .end()
-    .exclude.add(/node_modules/);
+    .end();
 
   // vue
   chainConfig.module
@@ -141,9 +159,6 @@ export const getDefaultChainWebpack = (
     })
   );
 
-  // invoke
-  chainConfig.plugin('invoke').use(require('@wolf/invoke'), [config.invoke]);
-
   // stats
   chainConfig.stats({
     modules: false,
@@ -154,7 +169,7 @@ export const getDefaultChainWebpack = (
 
   // call user config
   config.cli.serve.chainWebpack(chainConfig);
-};
+}
 
 async function getAddress(config: typeof baseConfig) {
   let { host } = config.cli.serve.devServer;
@@ -180,6 +195,7 @@ function callChainConfig(
   getDefaultChainWebpack(chainConfig, config);
   normalizeConfig(chainConfig);
   genDevFunctions(chainConfig, address, config);
+  callPluginChainConfig(chainConfig, config);
   return chainConfig.toConfig();
 }
 

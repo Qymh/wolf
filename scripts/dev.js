@@ -5,7 +5,9 @@ const fs = require('fs-extra');
 const chalk = require('chalk');
 let target = args._.length ? args._[0] : '';
 
-const packages = fs.readdirSync(path.resolve(process.cwd(), 'packages/@wolf'));
+const packages = fs
+  .readdirSync(path.resolve(process.cwd(), 'packages/@wolf'))
+  .filter((v) => v !== 'demo');
 
 if (target) {
   for (const value of packages) {

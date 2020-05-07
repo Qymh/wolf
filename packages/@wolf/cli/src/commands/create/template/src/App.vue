@@ -3,8 +3,12 @@
 </template>
 
 <script>
+import { View } from 'vue-router';
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    View
+  }
 };
 </script>
 

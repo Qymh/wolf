@@ -94,8 +94,8 @@ ${
   }
 };
 
-export function getConfig(): typeof baseConfig {
-  const context = process.cwd();
+export function getConfig(context?: string): typeof baseConfig {
+  context = context || process.cwd();
   const configNames = ['wolf.config.js', 'wolf.config.ts'];
   for (const name of configNames) {
     const file = path.resolve(context, name);

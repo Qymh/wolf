@@ -19,7 +19,8 @@ if (target === 'cli') {
     input: resolve('bin/wolf.ts'),
     output: {
       file: resolve(`bin/wolf.js`),
-      format: 'cjs'
+      format: 'cjs',
+      banner: '#!/usr/bin/env node'
     }
   };
 } else {

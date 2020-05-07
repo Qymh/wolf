@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import router from './invoke/router.ts';
+import { router } from '../.wolf/.invoke/router';
 
 const app = createApp(App, {
   router
