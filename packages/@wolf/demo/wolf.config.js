@@ -9,7 +9,6 @@ module.exports = {
     },
     serve: {
       entry: resolve('src/main.ts'),
-      template: resolve('public/index.html'),
       chainWebpack(config) {
         config.resolve.alias.set('@', resolve('src/views'));
         return config;

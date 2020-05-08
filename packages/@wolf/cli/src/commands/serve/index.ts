@@ -41,6 +41,7 @@ export function getDefaultChainWebpack(
 
   // modules
   chainConfig.resolve.modules
+    .add(path.resolve(config.root, 'node_modules'))
     .add(path.resolve(__dirname, '../', 'node_modules'))
     .add(path.resolve(__dirname, '../../cli-plugin-babel', 'node_modules'))
     .add(path.resolve(__dirname, '../../cli-plugin-eslint', 'node_modules'))
@@ -49,6 +50,7 @@ export function getDefaultChainWebpack(
 
   // resolveloader
   chainConfig.resolveLoader.modules
+    .add(path.resolve(config.root, 'node_modules'))
     .add(path.resolve(__dirname, '../', 'node_modules'))
     .add(path.resolve(__dirname, '../../cli-plugin-babel', 'node_modules'))
     .add(path.resolve(__dirname, '../../cli-plugin-eslint', 'node_modules'))
@@ -70,7 +72,8 @@ export function getDefaultChainWebpack(
     .options({
       cacheDirectory: 'node_modules/.cache/babel-loader'
     })
-    .end();
+    .end()
+    .exclude.add(/node_modules/);
 
   // vue
   chainConfig.module

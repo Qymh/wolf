@@ -83,8 +83,9 @@ function invokePlugins(
 ) {
   plugins.forEach((v) => {
     const plugin = require(resolveFrom(dir, `@wolf/cli-plugin-${v}`));
+    const pkg = require(path.resolve(dir, 'package.json'));
     if (typeof plugin === 'function') {
-      plugin({ config });
+      plugin({ config, pkg, dir });
     }
   });
 }
@@ -111,6 +112,7 @@ export const indentifier: Indentifier = {
       config = getConfig!(dir);
       await download(dir);
       invokePlugins(dir, plugins, config);
+      await download(dir);
     });
   }
 };
