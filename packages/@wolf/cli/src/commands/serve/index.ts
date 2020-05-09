@@ -139,6 +139,13 @@ export function getDefaultChainWebpack(
   // vue plugins
   chainConfig.plugin('vue').use(require('vue-loader').VueLoaderPlugin);
 
+  // html
+  chainConfig.plugin('html').use(require('html-webpack-plugin'), [
+    {
+      template: config.cli.serve.template
+    }
+  ]);
+
   // NODE_ENV
   chainConfig.plugin('define').use(require('webpack').DefinePlugin, [
     {
@@ -172,6 +179,9 @@ export function getDefaultChainWebpack(
 
   // call user config
   config.cli.serve.chainWebpack(chainConfig);
+
+  // call user plugins
+  callPluginChainConfig(chainConfig, config);
 }
 
 async function getAddress(config: typeof baseConfig) {
@@ -198,7 +208,6 @@ function callChainConfig(
   getDefaultChainWebpack(chainConfig, config);
   normalizeConfig(chainConfig);
   genDevFunctions(chainConfig, address, config);
-  callPluginChainConfig(chainConfig, config);
   return chainConfig.toConfig();
 }
 
@@ -249,13 +258,6 @@ function genDevFunctions(
     .prepend(
       require.resolve(`webpack-dev-server/client`) + `?${address}/sockjs-node`
     );
-
-  // html
-  chainConfig.plugin('html').use(require('html-webpack-plugin'), [
-    {
-      template: config.cli.serve.template
-    }
-  ]);
 
   // mini-css
   chainConfig.plugin('css').use(require('mini-css-extract-plugin'), [

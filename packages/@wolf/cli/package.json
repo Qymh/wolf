@@ -10,13 +10,14 @@
   },
   "main": "./bin/wolf.js",
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "check": "yarn upgrade-interactive"
   },
   "dependencies": {
     "@babel/core": "^7.9.0",
     "@types/default-gateway": "^3.0.1",
     "@types/mini-css-extract-plugin": "^0.9.1",
     "@types/webpack-dev-server": "^3.10.1",
+    "@vue/compiler-sfc": "^3.0.0-beta.10",
     "@wolf/babel-preset-app": "^0.0.0",
     "@wolf/cli-plugin-babel": "^0.0.0",
     "@wolf/cli-plugin-eslint": "^0.0.0",
@@ -43,7 +44,8 @@
     "webpack-dev-server": "^3.10.3"
   },
   "devDependencies": {
-    "vue": "3.0.0-alpha.13",
-    "vue-router": "4.0.0-alpha.5"
+    "vue": "v3.0.0-beta.10",
+    "vue-router": "v4.0.0-alpha.10",
+    "vuex": "v4.0.0-beta.1"
   }
 }

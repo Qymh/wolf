@@ -9,7 +9,7 @@
   dependencies:
     "@babel/highlight" "^7.8.3"
 
-"@babel/helper-validator-identifier@^7.9.0":
+"@babel/helper-validator-identifier@^7.9.0", "@babel/helper-validator-identifier@^7.9.5":
   version "7.9.5"
   resolved "https://registry.npm.taobao.org/@babel/helper-validator-identifier/download/@babel/helper-validator-identifier-7.9.5.tgz#90977a8e6fbf6b431a7dc31752eee233bf052d80"
   integrity sha1-kJd6jm+/a0MafcMXUu7iM78FLYA=
@@ -22,6 +22,20 @@
     "@babel/helper-validator-identifier" "^7.9.0"
     chalk "^2.0.0"
     js-tokens "^4.0.0"
+
+"@babel/parser@^7.8.6":
+  version "7.9.6"
+  resolved "https://registry.npm.taobao.org/@babel/parser/download/@babel/parser-7.9.6.tgz#3b1bbb30dabe600cd72db58720998376ff653bc7"
+  integrity sha1-Oxu7MNq+YAzXLbWHIJmDdv9lO8c=
+
+"@babel/types@^7.8.6":
+  version "7.9.6"
+  resolved "https://registry.npm.taobao.org/@babel/types/download/@babel/types-7.9.6.tgz#2c5502b427251e9de1bd2dff95add646d95cc9f7"
+  integrity sha1-LFUCtCclHp3hvS3/la3WRtlcyfc=
+  dependencies:
+    "@babel/helper-validator-identifier" "^7.9.5"
+    lodash "^4.17.13"
+    to-fast-properties "^2.0.0"
 
 "@types/color-name@^1.1.1":
   version "1.1.1"
@@ -80,6 +94,54 @@
     lodash "^4.17.15"
     semver "^6.3.0"
     tsutils "^3.17.1"
+
+"@vue/compiler-core@3.0.0-beta.10":
+  version "3.0.0-beta.10"
+  resolved "https://registry.npm.taobao.org/@vue/compiler-core/download/@vue/compiler-core-3.0.0-beta.10.tgz#42b62871d36839c794fb6650c322a4c517a2c813"
+  integrity sha1-QrYocdNoOceU+2ZQwyKkxReiyBM=
+  dependencies:
+    "@babel/parser" "^7.8.6"
+    "@babel/types" "^7.8.6"
+    "@vue/shared" "3.0.0-beta.10"
+    estree-walker "^0.8.1"
+    source-map "^0.6.1"
+
+"@vue/compiler-dom@3.0.0-beta.10":
+  version "3.0.0-beta.10"
+  resolved "https://registry.npm.taobao.org/@vue/compiler-dom/download/@vue/compiler-dom-3.0.0-beta.10.tgz#5b35df447eb96cb7faed37b76a8a9aca71a87c67"
+  integrity sha1-WzXfRH65bLf67Te3aoqaynGofGc=
+  dependencies:
+    "@vue/compiler-core" "3.0.0-beta.10"
+    "@vue/shared" "3.0.0-beta.10"
+
+"@vue/reactivity@3.0.0-beta.10":
+  version "3.0.0-beta.10"
+  resolved "https://registry.npm.taobao.org/@vue/reactivity/download/@vue/reactivity-3.0.0-beta.10.tgz#c63ee8dc9b6205d41595d20e2b5ff5cadf6b3cd7"
+  integrity sha1-xj7o3JtiBdQVldIOK1/1yt9rPNc=
+  dependencies:
+    "@vue/shared" "3.0.0-beta.10"
+
+"@vue/runtime-core@3.0.0-beta.10":
+  version "3.0.0-beta.10"
+  resolved "https://registry.npm.taobao.org/@vue/runtime-core/download/@vue/runtime-core-3.0.0-beta.10.tgz#4294faa5fc14fb4286598a566f86691014f6ec2b"
+  integrity sha1-QpT6pfwU+0KGWYpWb4ZpEBT27Cs=
+  dependencies:
+    "@vue/reactivity" "3.0.0-beta.10"
+    "@vue/shared" "3.0.0-beta.10"
+
+"@vue/runtime-dom@3.0.0-beta.10":
+  version "3.0.0-beta.10"
+  resolved "https://registry.npm.taobao.org/@vue/runtime-dom/download/@vue/runtime-dom-3.0.0-beta.10.tgz#bd06be5e075dabf5eb883f596e7923ec78821f90"
+  integrity sha1-vQa+Xgddq/XriD9Zbnkj7HiCH5A=
+  dependencies:
+    "@vue/runtime-core" "3.0.0-beta.10"
+    "@vue/shared" "3.0.0-beta.10"
+    csstype "^2.6.8"
+
+"@vue/shared@3.0.0-beta.10":
+  version "3.0.0-beta.10"
+  resolved "https://registry.npm.taobao.org/@vue/shared/download/@vue/shared-3.0.0-beta.10.tgz#4c8f9aebcd5a0e9dafb9fb788569f4ce49d209e5"
+  integrity sha1-TI+a681aDp2vuft4hWn0zknSCeU=
 
 acorn-jsx@^5.2.0:
   version "5.2.0"
@@ -258,6 +320,11 @@ cross-spawn@^6.0.5:
     semver "^5.5.0"
     shebang-command "^1.2.0"
     which "^1.2.9"
+
+csstype@^2.6.8:
+  version "2.6.10"
+  resolved "https://registry.npm.taobao.org/csstype/download/csstype-2.6.10.tgz?cache=0&sync_timestamp=1586935655811&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcsstype%2Fdownload%2Fcsstype-2.6.10.tgz#e63af50e66d7c266edb6b32909cfd0aabe03928b"
+  integrity sha1-5jr1DmbXwmbttrMpCc/Qqr4Dkos=
 
 debug@^2.6.9:
   version "2.6.9"
@@ -534,6 +601,11 @@ estraverse@^5.1.0:
   version "5.1.0"
   resolved "https://registry.npm.taobao.org/estraverse/download/estraverse-5.1.0.tgz#374309d39fd935ae500e7b92e8a6b4c720e59642"
   integrity sha1-N0MJ05/ZNa5QDnuS6Ka0xyDllkI=
+
+estree-walker@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.npm.taobao.org/estree-walker/download/estree-walker-0.8.1.tgz#6230ce2ec9a5cb03888afcaf295f97d90aa52b79"
+  integrity sha1-YjDOLsmlywOIivyvKV+X2QqlK3k=
 
 esutils@^2.0.2:
   version "2.0.3"
@@ -849,7 +921,7 @@ locate-path@^2.0.0:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
 
-lodash@^4.17.14, lodash@^4.17.15:
+lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15:
   version "4.17.15"
   resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha1-tEf2ZwoEVbv+7dETku/zMOoJdUg=
@@ -1168,6 +1240,11 @@ slice-ansi@^2.1.0:
     astral-regex "^1.0.0"
     is-fullwidth-code-point "^2.0.0"
 
+source-map@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.npm.taobao.org/source-map/download/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
+  integrity sha1-dHIq8y6WFOnCh6jQu95IteLxomM=
+
 spdx-correct@^3.0.0:
   version "3.1.0"
   resolved "https://registry.npm.taobao.org/spdx-correct/download/spdx-correct-3.1.0.tgz#fb83e504445268f154b074e218c87c003cd31df4"
@@ -1316,6 +1393,11 @@ tmp@^0.0.33:
   dependencies:
     os-tmpdir "~1.0.2"
 
+to-fast-properties@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/to-fast-properties/download/to-fast-properties-2.0.0.tgz#dc5e698cbd079265bc73e0377681a4e4e83f616e"
+  integrity sha1-3F5pjL0HkmW8c+A3doGk5Og/YW4=
+
 tslib@^1.8.1, tslib@^1.9.0:
   version "1.11.2"
   resolved "https://registry.npm.taobao.org/tslib/download/tslib-1.11.2.tgz#9c79d83272c9a7aaf166f73915c9667ecdde3cc9"
@@ -1376,6 +1458,15 @@ vue-eslint-parser@^7.0.0:
     espree "^6.1.2"
     esquery "^1.0.1"
     lodash "^4.17.15"
+
+vue@v3.0.0-beta.10:
+  version "3.0.0-beta.10"
+  resolved "https://registry.npm.taobao.org/vue/download/vue-3.0.0-beta.10.tgz#2e506a2923d84e3aacbdea0c1f232a7f78fc22e6"
+  integrity sha1-LlBqKSPYTjqsveoMHyMqf3j8IuY=
+  dependencies:
+    "@vue/compiler-dom" "3.0.0-beta.10"
+    "@vue/runtime-dom" "3.0.0-beta.10"
+    "@vue/shared" "3.0.0-beta.10"
 
 which@^1.2.9:
   version "1.3.1"

@@ -1,13 +1,10 @@
 <template>
-  <div>
-    <div>123</div>
-  </div>
+  <div>index</div>
 </template>
 
 <script>
 export default {
-  name: 'Index',
-  created() {}
+  name: 'Index'
 };
 </script>
 

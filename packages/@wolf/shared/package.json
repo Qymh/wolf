@@ -33,9 +33,5 @@
     "inquirer": "^7.1.0",
     "js-beautify": "^1.11.0",
     "webpack-chain": "^6.4.0"
-  },
-  "devDependencies": {
-    "vue": "3.0.0-alpha.13",
-    "vue-router": "4.0.0-alpha.5"
   }
 }

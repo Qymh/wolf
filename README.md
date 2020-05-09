@@ -7,12 +7,13 @@ A new mentality of framework for Vue3
 - [] cli
 
   - [x] generate
-  - [] create
+  - [x] create
   - [x] serve
-  - [] build
+  - [x] build
+  - [] add
 
-- [] lint
+- [x] lint
+
+- [x] plugin api
 
 - [] vuex model
-
-- [] plugin api

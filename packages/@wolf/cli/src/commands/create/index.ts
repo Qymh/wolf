@@ -16,16 +16,22 @@ function resolveCwd(address: string, ...args: string[]) {
 }
 
 function genPkg(name: string, plugins: string[]) {
-  const version = require('../package.json').version;
+  const clipkg = require('../package.json');
+  const version = clipkg.version;
+  const dep = {
+    vue: clipkg.devDependencies.vue,
+    'vue-router': clipkg.devDependencies['vue-router'],
+    vuex: clipkg.devDependencies.vuex
+  };
   const pkg: any = {
     name,
     version: '0.0.0',
     scripts: {
-      serve: 'wolf serve'
+      serve: 'wolf serve',
+      build: 'wolf build'
     },
     dependencies: {
-      vue: '3.0.0-alpha.13',
-      'vue-router': '4.0.0-alpha.5'
+      ...dep
     },
     devDependencies: {
       '@wolf/cli': `^${version}`

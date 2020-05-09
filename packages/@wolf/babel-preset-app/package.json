@@ -37,9 +37,5 @@
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "core-js": "^3.6.5"
-  },
-  "devDependencies": {
-    "vue": "3.0.0-alpha.13",
-    "vue-router": "4.0.0-alpha.5"
   }
 }

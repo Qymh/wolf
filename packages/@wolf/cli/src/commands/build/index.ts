@@ -74,12 +74,25 @@ function genProdFunctions(chainConfig: Config, config: typeof baseConfig) {
   ]);
 }
 
+function outputAssets(json: webpack.Stats.ToJsonOutput) {
+  const { assets } = json;
+  if (assets) {
+    for (const value of assets) {
+      console.log(
+        `module: ${chalk.blue(value.name)}
+size:   ${chalk.green((value.size / 1024).toFixed(2))}kb\n`
+      );
+    }
+  }
+}
+
 export const indentifier: Indentifier = {
   command: 'build',
   description: 'build an app for production',
   options: [],
   action({ name, config, chainConfig }) {
     const webpackConfig = callChainConfig(chainConfig, config);
+    // console.dir(webpackConfig, { depth: null });
     try {
       fs.removeSync(config.cli.serve.output);
     } catch (error) {}
@@ -95,8 +108,11 @@ export const indentifier: Indentifier = {
         console.log(chalk.yellow(warnings.join('\n')));
       }
 
+      const json = stats.toJson({ hash: false, modules: false, chunks: false });
+      outputAssets(json);
+
       console.log(chalk.green('\n build successed \n'));
-      process.exit(1);
+      process.exit();
     });
   }
 };

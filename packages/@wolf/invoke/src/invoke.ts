@@ -4,7 +4,7 @@ import { NavigationGuard, RouterOptions } from 'vue-router';
 import { generate } from './generate';
 import { ErrorCodes, error } from './error';
 import { replacePostfix, isDir } from './utils';
-import { camelize } from '@wolf/shared';
+import { camelize, fs } from '@wolf/shared';
 
 export type Options = {
   root: string;
@@ -42,10 +42,9 @@ function normalizeOptions(options: Options): Options | never {
   }
   try {
     if (outputDir && !isDir(outputDir)) {
-      process.exit(1);
     }
   } catch (e) {
-    error(ErrorCodes.WRONG_OUTPUTDIR);
+    fs.mkdirSync(outputDir);
   }
   options.alias = root;
 
