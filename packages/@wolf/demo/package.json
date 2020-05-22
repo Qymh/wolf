@@ -10,7 +10,8 @@
     "vue-router": "v4.0.0-alpha.10",
     "vuex": "v4.0.0-beta.1",
     "@babel/polyfill": "^7.8.7",
-    "core-js": "^3.6.5"
+    "core-js": "^3.6.5",
+    "vuex-pro": "^0.1.0-beta.4"
   },
   "devDependencies": {
     "@wolf/cli": "^0.0.0",
@@ -19,6 +20,7 @@
     "@wolf/eslint-config-app": "^0.0.0",
     "@wolf/cli-plugin-eslint": "^0.0.0",
     "@wolf/cli-plugin-invoke": "^0.0.0",
+    "@wolf/cli-plugin-vuex-pro": "^0.0.0",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
     "eslint": "^6.8.0",

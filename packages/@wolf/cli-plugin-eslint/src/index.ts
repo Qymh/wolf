@@ -1,10 +1,4 @@
-import {
-  Plugin,
-  fs,
-  checkDirExisted,
-  Dictionary,
-  baseConfig
-} from '@wolf/shared';
+import { Plugin, fs, checkDirExisted, Dictionary } from '@wolf/shared';
 import path from 'path';
 
 function move(target: string, local: string, root: string) {

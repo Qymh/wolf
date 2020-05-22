@@ -1,10 +1,17 @@
 <template>
-  <div>index</div>
+  <div>{{ state.system }}</div>
 </template>
 
 <script>
+import { useState } from 'vuex-pro';
 export default {
-  name: 'Index'
+  name: 'Index',
+  setup() {
+    const state = useState('system', ['system']);
+    return {
+      state
+    };
+  }
 };
 </script>
 

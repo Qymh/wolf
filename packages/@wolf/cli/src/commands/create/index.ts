@@ -55,8 +55,8 @@ async function choosePlugins() {
       name: 'plugins',
       type: 'checkbox',
       message: 'please choose plugins',
-      choices: ['babel', 'eslint', 'invoke'],
-      default: ['babel', 'eslint', 'invoke']
+      choices: ['babel', 'eslint', 'invoke', 'vuex-pro'],
+      default: ['babel', 'eslint', 'invoke', 'vuex-pro']
     })
     .then((res) => {
       return res.plugins;
