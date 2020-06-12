@@ -4,8 +4,7 @@
   "scripts": {
     "lint": "prettier --write .",
     "check": "yarn upgrade-interactive",
-    "dev": "node scripts/dev.js",
-    "demo:invoke": "cross-env NODE_ENV=development webpack-dev-server --config packages/@wolf/invoke/demo/webpack.config.js"
+    "dev": "node scripts/dev.js"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
